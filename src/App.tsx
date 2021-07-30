@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter, Route} from 'react-router-dom';
 import './App.css';
 import { Dialogs } from './components/Dialogs/Dialogs';
 import { Header } from './components/Header/Header';
@@ -11,13 +12,16 @@ import { Settings } from './components/Settings/Settings';
 
 export const App = () => {
   return (
+    <BrowserRouter>
     <div className="app-wrapper">
       <Header />
       <Navbar />
       <div className="app-wrapper-content">
-       <Profile />
+        <Route  path={"/profile"}  render={() => <Profile />} />
+        <Route  path={"/dialogs"}  render={() => <Dialogs />} />
       </div>
     </div>
+    </BrowserRouter>
   );
-}
+} 
 

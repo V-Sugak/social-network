@@ -8,3 +8,7 @@
     color:white;
     text-decoration: none;
 }
+
+.item a.active {
+    color: rgb(233, 92, 115);
+}
