@@ -2,20 +2,34 @@ import React from 'react';
 import s from './MyPosts.module.css'
 import { Post } from './Post/Post';
 
-type MyPostsTypeProps = {
+export type PostTypeProps = {
+    id: number
+    message: string
+    likeCount: number
+}
 
+export type MyPostsTypeProps = {
+    posts: Array<PostTypeProps>
 }
 
 export const MyPosts = (props: MyPostsTypeProps) => {
+
+    let postsElements = props.posts.map(p => <Post message={p.message} likeCount={p.likeCount} />)
+
     return (
-        <div >
+        <div className={s.postsBlock} >
             My posts
             <div>
-                <textarea ></textarea>
-                <button>Add post</button>
+                <div>
+                    <textarea ></textarea>
+                </div>
+                <div>
+                    <button>Add post</button>
+                </div>
+            </div >
+            <div className={s.posts} >
+                {postsElements}
             </div>
-            <Post message={"Hi, how are you"} likeCount={15} />
-            <Post message={"It's my first post"} likeCount={15} />
         </div>
     )
 }

@@ -2,3 +2,7 @@
 .active a {
     color: #00FA9A;
  }
+
+ .dialog a {
+    text-decoration: none;
+} 
