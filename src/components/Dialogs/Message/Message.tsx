@@ -1,12 +1,11 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import s from "./Message.module.css"
 
-export type MessageTypeProps = {
-    message: string
-}
+type MessagePropsType = {
+    message:string
+};
 
-export const Message = (props: MessageTypeProps) => {
+export const Message: React.FC<MessagePropsType> = (props) => {
     return (
         <div className={s.message}> {props.message} </div>
     )
