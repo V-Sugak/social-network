@@ -7,7 +7,7 @@ export type ProfilePropsType = {
     posts: Array<PostType>
 }
 
-export const Profile: React.FC<ProfilePropsType> = (props) => {
+export const Profile = (props: ProfilePropsType) => {
     return (
         <div>
             <ProfileInfo/>

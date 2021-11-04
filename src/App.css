@@ -13,5 +13,6 @@
 
 .app-wrapper-content {
     grid-area: c;
-    background-color: #F0E68C;
+    background-color: khaki;
+    margin: 10px 0 0 10px;
 }

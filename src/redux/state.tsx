@@ -16,7 +16,7 @@ export type DialogsType = {
 export type PostType = {
     id: number
     message: string
-    likeCount: number
+    likesCount: number
 }
 export type RootStateType = {
     dialogs: DialogsType
@@ -38,7 +38,7 @@ export let state: RootStateType = {
         ]
     },
     posts: [
-        {id: 1, message: "Hi, how are you", likeCount: 15},
-        {id: 1, message: "It's my first post", likeCount: 30}
+        {id: 1, message: "Hi, how are you", likesCount: 15},
+        {id: 1, message: "It's my first post", likesCount: 30}
     ]
 }

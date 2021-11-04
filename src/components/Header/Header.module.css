@@ -1,10 +1,13 @@
 .head {
     grid-area: h;
-    background-color: #00FA9A;
-}
+    background-color: seagreen;
+ }
 
-.head img {
-    margin: 0 0 0 10px;
-    width: 90px;
-    height: 60px;
-}
+.logo {
+    padding: 15px 0 0 20px;
+    font-family:  cursive;
+    font-weight: bold;
+    color: white;
+    font-size: 22px;
+   }
+

@@ -8,7 +8,7 @@ type DialogsPropsType = {
     dialogs: DialogsType
 }
 
-export const Dialogs: React.FC<DialogsPropsType> = (props) => {
+export const Dialogs = (props:DialogsPropsType) => {
 
     let dialogElement = props.dialogs.dialogsItem.map(d => <DialogsItem name={d.name} id={d.id}/>)
 

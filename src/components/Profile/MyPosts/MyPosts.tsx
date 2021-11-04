@@ -8,13 +8,13 @@ export type MyPostsPropsType = {
     posts: Array<PostType>
 }
 
-export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
+export const MyPosts = (props: MyPostsPropsType) => {
 
-    let postsElements = props.posts.map(p => <Post message={p.message} likeCount={p.likeCount}/>)
+    let postsElements = props.posts.map(p => <Post message={p.message} likeCount={p.likesCount}/>)
 
     return (
         <div className={s.postsBlock}>
-            My posts
+            <h3>My posts</h3>
             <div>
                 <div>
                     <textarea></textarea>

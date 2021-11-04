@@ -1,8 +1,9 @@
 
-.active a {
-    color: #00FA9A;
- }
-
- .dialog a {
+.dialog a {
     text-decoration: none;
-} 
+    color: black;
+}
+
+.dialog a.active {
+    color: white;
+}

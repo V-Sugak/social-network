@@ -9,7 +9,7 @@ export const ProfileInfo = () => {
                 <img
                     src="https://futureofworking.com/wp-content/uploads/2015/06/advantages-and-disadvantages-of-social-networking.png"/>
             </div>
-            <div className={s.discriptionBlock}>ava+ dicription</div>
+            <div className={s.descriptionBlock}>ava+ decription</div>
         </div>
     )
 }
