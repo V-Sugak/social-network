@@ -10,7 +10,7 @@ export const Post: React.FC<PostPropsType> = (props) => {
     return (
         <div className={s.item}>
             <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTTXOVu5r0oeNXoCscarp4c7N1zZrYtK04HA&usqp=CAU"
+                src="https://bigpicture.ru/wp-content/uploads/2019/11/mixedblood00.jpg"
                 alt=""/>
             {props.message}
             <div>

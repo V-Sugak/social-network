@@ -1,0 +1,13 @@
+.fr {
+    display: flex;
+}
+
+.f {
+    padding-right: 5px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
