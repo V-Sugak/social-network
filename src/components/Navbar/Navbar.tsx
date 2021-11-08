@@ -22,7 +22,6 @@ export const Navbar = (props: NavbarTypeProps) => {
                 Friends
                 <div className={s.friend}>
                     <Friend friends={props.friends}/>
-
                 </div>
             </div>
         </nav>
