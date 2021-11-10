@@ -1,3 +1,5 @@
+import {rerenderEntireTree} from "../render";
+
 export type DialogItemType = {
     id: string
     name: string
@@ -18,6 +20,7 @@ export type PostType = {
     message: string
     likesCount: number
 }
+
 export type FriendType = {
     id: number
     name: string
@@ -59,5 +62,17 @@ export let state: RootStateType = {
             {id: 3, name: 'Max', avatar: 'https://i.pinimg.com/originals/0e/41/52/0e4152973ef78326aca365659e8d97a8.png'}
         ]
     }
-
 }
+
+export const addPost = (postMessage: string) => {
+    let newPost: PostType = {
+        id: 5,
+        message: postMessage,
+        likesCount: 0
+    };
+
+    state.posts.push(newPost);
+    rerenderEntireTree(state);
+}
+
+
