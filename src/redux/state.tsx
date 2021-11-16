@@ -21,6 +21,11 @@ export type PostType = {
     likesCount: number
 }
 
+export type ProfilePageType = {
+    posts: Array<PostType>,
+    newPostText: string
+}
+
 export type FriendType = {
     id: number
     name: string
@@ -32,14 +37,14 @@ export type FriendsType = {
 }
 
 export type RootStateType = {
-    dialogs: DialogsType
-    posts: Array<PostType>
+    dialogsPage: DialogsType
+    profilePage: ProfilePageType
     navbar: FriendsType
 }
 
 
 export let state: RootStateType = {
-    dialogs: {
+    dialogsPage: {
         dialogsItem: [
             {id: "1", name: "Victoria"},
             {id: "2", name: "Diana"},
@@ -51,10 +56,13 @@ export let state: RootStateType = {
             {id: 3, message: "Yo"}
         ]
     },
-    posts: [
-        {id: 1, message: "Hi, how are you", likesCount: 15},
-        {id: 1, message: "It's my first post", likesCount: 30}
-    ],
+    profilePage: {
+        posts: [
+            {id: 1, message: "Hi, how are you", likesCount: 15},
+            {id: 1, message: "It's my first post", likesCount: 30}
+        ],
+        newPostText: 'it-incubator'
+    },
     navbar: {
         friends: [
             {id: 1, name: 'Irina', avatar: 'https://img.joinfo.com/i/2018/04/5ad83d406a33d.jpg'},
@@ -64,14 +72,19 @@ export let state: RootStateType = {
     }
 }
 
-export const addPost = (postMessage: string) => {
+export const addPost = () => {
     let newPost: PostType = {
         id: 5,
-        message: postMessage,
+        message: state.profilePage.newPostText,
         likesCount: 0
     };
+    state.profilePage.posts.push(newPost);
+    state.profilePage.newPostText = '';
+    rerenderEntireTree(state);
+}
 
-    state.posts.push(newPost);
+export const updateNewPostText = (newPostText: string) => {
+    state.profilePage.newPostText = newPostText;
     rerenderEntireTree(state);
 }
 
