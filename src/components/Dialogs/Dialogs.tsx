@@ -15,7 +15,7 @@ export const Dialogs = (props: DialogsPropsType) => {
 
     let messageElement = props.dialogs.messages.map(m => <Message message={m.message}/>)
 
-    const sendMessage = () => {
+    const onSendMessageClick = () => {
         props.dispatch(addMessageActionCreator())
     }
 
@@ -25,7 +25,7 @@ export const Dialogs = (props: DialogsPropsType) => {
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            sendMessage()
+            onSendMessageClick()
         }
     }
 
@@ -37,9 +37,13 @@ export const Dialogs = (props: DialogsPropsType) => {
             <div className={s.messages}>
                 <div>{messageElement}</div>
                 <div className={s.newMessage}>
-                    <input value={props.dialogs.newMessageText} onKeyPress={onKeyPressHandler}
-                           onChange={onChangeHandler}/>
-                    <button onClick={sendMessage}>Send</button>
+                  <div>
+                      <input value={props.dialogs.newMessageText} onKeyPress={onKeyPressHandler}
+                              onChange={onChangeHandler}/>
+                  </div>
+                   <div>
+                       <button onClick={onSendMessageClick}>Send</button>
+                   </div>
                 </div>
             </div>
         </div>

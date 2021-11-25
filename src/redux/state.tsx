@@ -1,3 +1,8 @@
+const ADD_POST = "ADD-POST";
+const ADD_MESSAGE = "ADD-MESSAGE";
+const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+const UPDATE_NEW_MESSAGE_TEXT = "UPDATE-NEW-MESSAGE-TEXT";
+
 export type DialogItemType = {
     id: string
     name: string
@@ -41,26 +46,11 @@ export type RootStateType = {
     navbar: FriendsType
 }
 
-type AddPostActionType = {
-    type: 'ADD-POST'
-}
-
-type AddMessageActionType = {
-    type: 'ADD-MESSAGE'
-}
-type UpdateNewPostTextActionType = {
-    type: 'UPDATE-NEW-POST-TEXT'
-    newPostText: string
-}
-type UpdateNewMessageTextActionType = {
-    type: 'UPDATE-NEW-MESSAGE-TEXT'
-    newMessageText: string
-}
 export type ActionsType =
-    AddPostActionType
-    | AddMessageActionType
-    | UpdateNewPostTextActionType
-    | UpdateNewMessageTextActionType
+    ReturnType<typeof addPostActionCreator>
+    | ReturnType<typeof addMessageActionCreator>
+    | ReturnType<typeof updateNewPostTextActionCreator>
+    | ReturnType<typeof updateNewMessageTextActionCreator>
 
 export type StoreType = {
     _state: RootStateType
@@ -85,14 +75,14 @@ export let store: StoreType = {
                 {id: 2, message: "How are you?"},
                 {id: 3, message: "Yo"}
             ],
-            newMessageText: 'It is a wonderful day'
+            newMessageText: ''
         },
         profilePage: {
             posts: [
                 {id: 1, message: "Hi, how are you", likesCount: 15},
                 {id: 1, message: "It's my first post", likesCount: 30}
             ],
-            newPostText: 'it-incubator'
+            newPostText: ''
         },
         navbar: {
             friends: [
@@ -146,31 +136,27 @@ export let store: StoreType = {
     }
 }
 
-const ADD_POST = "ADD-POST";
-const ADD_MESSAGE = "ADD-MESSAGE";
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
-const UPDATE_NEW_MESSAGE_TEXT = "UPDATE-NEW-MESSAGE-TEXT";
 
-export const addPostActionCreator = (): AddPostActionType => {
-    return {type: ADD_POST}
+export const addPostActionCreator = () => {
+    return {type: ADD_POST} as const
 }
 
-export const updateNewPostTextActionCreator = (text: string): UpdateNewPostTextActionType => {
+export const updateNewPostTextActionCreator = (text: string) => {
     return {
         type: UPDATE_NEW_POST_TEXT,
         newPostText: text
-    }
+    } as const
 }
 
-export const addMessageActionCreator = (): AddMessageActionType => {
-    return {type: ADD_MESSAGE}
+export const addMessageActionCreator = () => {
+    return {type: ADD_MESSAGE} as const
 }
 
-export const updateNewMessageTextActionCreator = (text: string): UpdateNewMessageTextActionType => {
+export const updateNewMessageTextActionCreator = (text: string) => {
     return {
         type: UPDATE_NEW_MESSAGE_TEXT,
         newMessageText: text
-    }
+    } as const
 }
 
 
