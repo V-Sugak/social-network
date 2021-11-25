@@ -41,15 +41,35 @@ export type RootStateType = {
     navbar: FriendsType
 }
 
+type AddPostActionType = {
+    type: 'ADD-POST'
+}
+
+type AddMessageActionType = {
+    type: 'ADD-MESSAGE'
+}
+type UpdateNewPostTextActionType = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    newPostText: string
+}
+type UpdateNewMessageTextActionType = {
+    type: 'UPDATE-NEW-MESSAGE-TEXT'
+    newMessageText: string
+}
+export type ActionsType =
+    AddPostActionType
+    | AddMessageActionType
+    | UpdateNewPostTextActionType
+    | UpdateNewMessageTextActionType
+
 export type StoreType = {
     _state: RootStateType
     _callSubscriber: () => void
     getState: () => RootStateType
-    addPost: () => void
-    addMessage: () => void
-    updateNewPostText: (newPostText: string) => void
-    updateNewMessageText: (newMessageText: string) => void
+
     subscribe: (callback: () => void) => void
+
+    dispatch: (action: ActionsType) => void
 }
 
 export let store: StoreType = {
@@ -89,43 +109,48 @@ export let store: StoreType = {
     _callSubscriber() {
         alert('state changed')
     },
+
     getState() {
         return this._state
     },
-    addPost() {
-        let newPost: PostType = {
-            id: 5,
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        };
-        this._state.profilePage.posts.push(newPost);
-        this._state.profilePage.newPostText = '';
-        this._callSubscriber();
-    },
-    addMessage() {
-        let newMessage: MessageType = {
-            id: 4,
-            message: this._state.dialogsPage.newMessageText,
-        };
-        this._state.dialogsPage.messages.push(newMessage);
-        this._state.dialogsPage.newMessageText = '';
-        this._callSubscriber();
-    },
-    updateNewPostText(newPostText: string) {
-        this._state.profilePage.newPostText = newPostText;
-        this._callSubscriber();
-    },
-    updateNewMessageText(newMessageText: string) {
-        this._state.dialogsPage.newMessageText = newMessageText;
-        this._callSubscriber();
-    },
-    subscribe(callback: () => void) {
+
+    subscribe(callback) {
         this._callSubscriber = callback;
+    },
+
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            let newPost: PostType = {
+                id: 5,
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
+            };
+            this._state.profilePage.posts.push(newPost);
+            this._state.profilePage.newPostText = '';
+            this._callSubscriber();
+        }
+        else if (action.type === 'ADD-MESSAGE') {
+            let newMessage: MessageType = {
+                id: 4,
+                message: this._state.dialogsPage.newMessageText,
+            };
+            this._state.dialogsPage.messages.push(newMessage);
+            this._state.dialogsPage.newMessageText = '';
+            this._callSubscriber();
+        }
+        else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.newPostText;
+            this._callSubscriber();
+        }
+        else if (action.type === 'UPDATE-NEW-MESSAGE-TEXT') {
+            this._state.dialogsPage.newMessageText = action.newMessageText;
+            this._callSubscriber();
+        }
     }
 }
 
 
-//window.store=store;
+
 
 
 
