@@ -35,14 +35,14 @@ export type FriendType = {
     avatar: string
 }
 
-export type FriendsType = {
+export type SidebarType = {
     friends: Array<FriendType>
 }
 
 export type RootStateType = {
     dialogsPage: DialogsType
     profilePage: ProfilePageType
-    sidebar: FriendsType
+    sidebar: SidebarType
 }
 
 export type ActionsType =
