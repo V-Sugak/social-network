@@ -8,7 +8,7 @@ import {Navbar} from './components/Navbar/Navbar';
 import {News} from './components/News/News';
 import {Profile} from './components/Profile/Profile';
 import {Settings} from './components/Settings/Settings';
-import {ActionsType, RootStateType} from "./redux/state";
+import {ActionsType, RootStateType} from "./redux/store";
 
 
 type AppPropsType = {
@@ -21,7 +21,7 @@ const App = (props: AppPropsType) => {
     return (
         <div className="app-wrapper">
             <Header/>
-            <Navbar friends={props.state.navbar.friends}/>
+            <Navbar friends={props.state.sidebar.friends}/>
             <div className="app-wrapper-content">
                 <Route path={"/profile"} render={() =>
                     <Profile profilePage={props.state.profilePage} dispatch={props.dispatch}/>}/>
