@@ -7,7 +7,7 @@ type FriendPropsType = {
     friends: Array<FriendType>
 }
 
-export const Friend = (props: FriendPropsType) => {
+export const Friends = (props: FriendPropsType) => {
     return (
         <div className={s.fr}>
             {props.friends.map(f => {

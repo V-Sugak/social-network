@@ -7,23 +7,21 @@ import {Navbar} from './components/Navbar/Navbar';
 import {News} from './components/News/News';
 import {Profile} from './components/Profile/Profile';
 import {Settings} from './components/Settings/Settings';
-import {StoreType} from "./redux/store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {NavbarContainer} from "./components/Navbar/NavbarContainer";
 
 
-type AppPropsType = {
-    store: StoreType
-}
+type AppPropsType = {}
 
 const App = (props: AppPropsType) => {
 
     return (
         <div className="app-wrapper">
             <Header/>
-            <Navbar store={props.store}/>
+            <NavbarContainer />
             <div className="app-wrapper-content">
-                <Route path={"/profile"} render={() => <Profile store={props.store}/>}/>
-                <Route path={"/dialogs"} render={() => <DialogsContainer store={props.store}/>}/>
+                <Route path={"/profile"} render={() => <Profile/>}/>
+                <Route path={"/dialogs"} render={() => <DialogsContainer/>}/>
                 <Route path={"/music"} render={() => <Music/>}/>
                 <Route path={"/news"} render={() => <News/>}/>
                 <Route path={"/settings"} render={() => <Settings/>}/>

@@ -12,6 +12,6 @@ let initialState: SidebarType = {
     ]
 }
 
-export const sidebarReducer = (state: SidebarType = initialState, action: ActionsType) => {
+export const sidebarReducer = (state: SidebarType = initialState, action: ActionsType): SidebarType => {
     return state
 }
