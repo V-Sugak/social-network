@@ -2,17 +2,17 @@ import {addPostActionCreator, profileReducer, updateNewPostTextActionCreator} fr
 import {addMessageActionCreator, dialogsReducer, updateNewMessageTextActionCreator} from "./dialogs-reducer";
 import {sidebarReducer} from "./sidebar-reducer";
 
-export type DialogItemType = {
+type DialogItemType = {
     id: string
     name: string
 }
 
-export type MessageType = {
+type MessageType = {
     id: number
     message: string
 }
 
-export type DialogsType = {
+type DialogsType = {
     dialogsItem: Array<DialogItemType>
     messages: Array<MessageType>
     newMessageText: string
@@ -60,6 +60,7 @@ export type StoreType = {
 
     dispatch: (action: ActionsType) => void
 }
+/*
 
 export let store: StoreType = {
     _state: {
@@ -115,6 +116,8 @@ export let store: StoreType = {
         this._callSubscriber();
     }
 }
+*/
+
 
 
 

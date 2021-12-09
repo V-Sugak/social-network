@@ -2,14 +2,7 @@ import React, {ChangeEvent, KeyboardEvent} from 'react';
 import s from "./Dialogs.module.css"
 import {DialogsItem} from './DialogsItem/DialogsItem';
 import {Message} from './Message/Message';
-import {DialogsType} from "../../redux/store";
-
-
-type DialogsPropsType = {
-    onSendMessageClick: () => void
-    onChangeHandler: (text: string) => void
-    state: DialogsType
-}
+import {DialogsPropsType} from "./DialogsContainer";
 
 export const Dialogs = (props: DialogsPropsType) => {
     let dialogElement = props.state.dialogsItem.map(d => <DialogsItem name={d.name} id={d.id}/>)
@@ -22,7 +15,6 @@ export const Dialogs = (props: DialogsPropsType) => {
             onSendMessageClick()
         }
     }
-
 
     return (<div className={s.dialogs}>
             <div className={s.dialogsItem}>
