@@ -32,12 +32,11 @@ export const dialogsReducer = (state: initialStateDialogsType = initialState, ac
                 id: 4,
                 message: state.newMessageText,
             };
-            let newState = {
+            return {
                 ...state,
-                messages: [...state.messages, newMessage]
-            }
-            state.newMessageText = '';
-            return newState;
+                messages: [...state.messages, newMessage],
+                newMessageText: ''
+            };
         }
         case "UPDATE-NEW-MESSAGE-TEXT": {
             return {

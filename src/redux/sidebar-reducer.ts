@@ -1,6 +1,6 @@
-import {ActionsType, DialogsType, SidebarType} from "./store";
+export type initialStateSadBarType = typeof initialState
 
-let initialState: SidebarType = {
+let initialState = {
     friends: [
         {id: 1, name: 'Irina', avatar: 'https://img.joinfo.com/i/2018/04/5ad83d406a33d.jpg'},
         {id: 2, name: 'Diana', avatar: 'https://kor.ill.in.ua/m/610x385/2254601.jpg'},
@@ -12,6 +12,6 @@ let initialState: SidebarType = {
     ]
 }
 
-export const sidebarReducer = (state: SidebarType = initialState, action: ActionsType): SidebarType => {
+export const sidebarReducer = (state: initialStateSadBarType = initialState, action: any): initialStateSadBarType => {
     return state
 }

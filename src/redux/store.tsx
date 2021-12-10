@@ -1,6 +1,5 @@
-import {addPostActionCreator, profileReducer, updateNewPostTextActionCreator} from "./profile-reducer";
-import {addMessageActionCreator, dialogsReducer, updateNewMessageTextActionCreator} from "./dialogs-reducer";
-import {sidebarReducer} from "./sidebar-reducer";
+import {addPostActionCreator, updateNewPostTextActionCreator} from "./profile-reducer";
+import {addMessageActionCreator, updateNewMessageTextActionCreator} from "./dialogs-reducer";
 
 type DialogItemType = {
     id: string
@@ -18,40 +17,40 @@ type DialogsType = {
     newMessageText: string
 }
 
-export type PostType = {
+type PostType = {
     id: number
     message: string
     likesCount: number
 }
 
-export type ProfilePageType = {
+type ProfilePageType = {
     posts: Array<PostType>,
     newPostText: string
 }
 
-export type FriendType = {
+type FriendType = {
     id: number
     name: string
     avatar: string
 }
 
-export type SidebarType = {
+type SidebarType = {
     friends: Array<FriendType>
 }
 
-export type RootStateType = {
+type RootStateType = {
     dialogsPage: DialogsType
     profilePage: ProfilePageType
     sidebar: SidebarType
 }
 
-export type ActionsType =
+type ActionsType =
     ReturnType<typeof addPostActionCreator>
     | ReturnType<typeof addMessageActionCreator>
     | ReturnType<typeof updateNewPostTextActionCreator>
     | ReturnType<typeof updateNewMessageTextActionCreator>
 
-export type StoreType = {
+type StoreType = {
     _state: RootStateType
     _callSubscriber: () => void
     getState: () => RootStateType

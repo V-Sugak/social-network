@@ -1,9 +1,13 @@
-import {ActionsType, PostType, ProfilePageType} from "./store";
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+type ActionsType = ReturnType<typeof addPostActionCreator> | ReturnType<typeof updateNewPostTextActionCreator>
 
-const ADD_POST = "ADD-POST";
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+type InitialStateProfileType = typeof initialState
 
-let initialState: ProfilePageType = {
+let initialState = {
     posts: [
         {id: 1, message: "Hi, how are you", likesCount: 15},
         {id: 1, message: "It's my first post", likesCount: 30}
@@ -11,33 +15,37 @@ let initialState: ProfilePageType = {
     newPostText: ''
 }
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionsType): ProfilePageType => {
+
+export const profileReducer = (state: InitialStateProfileType = initialState, action: ActionsType): InitialStateProfileType => {
     switch (action.type) {
-        case ADD_POST:
+        case "ADD-POST": {
             let newPost: PostType = {
                 id: 5,
                 message: state.newPostText,
                 likesCount: 0
             };
             if (state.newPostText.trim()) {
-                state.posts.push(newPost);
-                state.newPostText = '';
+                return {
+                    ...state,
+                    posts: [...state.posts, newPost],
+                    newPostText: ''
+                };
             }
             return state;
-        case UPDATE_NEW_POST_TEXT:
-            state.newPostText = action.newPostText;
-            return state;
+        }
+        case "UPDATE-NEW-POST-TEXT":
+            return {...state, newPostText: action.newPostText};
         default:
             return state;
     }
 }
 export const addPostActionCreator = () => {
-    return {type: ADD_POST} as const
+    return {type: "ADD-POST"} as const
 }
 
 export const updateNewPostTextActionCreator = (text: string) => {
     return {
-        type: UPDATE_NEW_POST_TEXT,
+        type: "UPDATE-NEW-POST-TEXT",
         newPostText: text
     } as const
 }
