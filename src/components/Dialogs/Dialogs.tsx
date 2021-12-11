@@ -5,8 +5,8 @@ import {Message} from './Message/Message';
 import {DialogsPropsType} from "./DialogsContainer";
 
 export const Dialogs = (props: DialogsPropsType) => {
-    let dialogElement = props.state.dialogsItem.map(d => <DialogsItem name={d.name} id={d.id}/>)
-    let messageElement = props.state.messages.map(m => <Message message={m.message}/>)
+    let dialogElement = props.state.dialogsItem.map(d => <DialogsItem key={d.id} name={d.name} id={d.id}/>)
+    let messageElement = props.state.messages.map(m => <Message key={m.id} message={m.message}/>)
 
     const onSendMessageClick = () => props.onSendMessageClick()
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => props.onChangeHandler(e.currentTarget.value)

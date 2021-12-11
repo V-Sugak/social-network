@@ -8,6 +8,7 @@ import {Profile} from './components/Profile/Profile';
 import {Settings} from './components/Settings/Settings';
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {NavbarContainer} from "./components/Navbar/NavbarContainer";
+import {UsersContainer} from "./components/Users/UsersContainer";
 
 
 type AppPropsType = {}
@@ -17,13 +18,14 @@ const App = (props: AppPropsType) => {
     return (
         <div className="app-wrapper">
             <Header/>
-            <NavbarContainer />
+            <NavbarContainer/>
             <div className="app-wrapper-content">
                 <Route path={"/profile"} render={() => <Profile/>}/>
                 <Route path={"/dialogs"} render={() => <DialogsContainer/>}/>
                 <Route path={"/music"} render={() => <Music/>}/>
                 <Route path={"/news"} render={() => <News/>}/>
                 <Route path={"/settings"} render={() => <Settings/>}/>
+                <Route path={"/users"} render={() => <UsersContainer/>}/>
             </div>
         </div>
     );
