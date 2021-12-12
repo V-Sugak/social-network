@@ -1,19 +1,28 @@
-export type UserType = {
-    id: string
+type PhotosType = {
+    small: null | string
+    large: null | string
+}
+
+export type ItemsType = {
+    name: string
+    id: number
+    uniqueUrlName: null | string
+    photos: PhotosType
+    status: null | string
     followed: boolean
-    fullName: string
-    status: string
-    location: { city: string, country: string }
-    photoUrl: string
 }
 
 export type initialStateUsersType = {
-    users: Array<UserType>
+    items: Array<ItemsType>
+    totalCount: number
+    error: null
 }
 
 
 let initialState: initialStateUsersType = {
-    users: []
+    items: [],
+    totalCount: 1,
+    error: null,
 }
 
 type ActionsType = ReturnType<typeof followAC>
@@ -25,31 +34,31 @@ export const usersReducer = (state: initialStateUsersType = initialState, action
         case 'FOLLOW': {
             return {
                 ...state,
-                users: state.users.map(u => u.id === action.userId ? {...u, followed: true} : u)
+                items: state.items.map(u => u.id === action.userId ? {...u, followed: true} : u)
             }
         }
         case 'UNFOLLOW' : {
             return {
                 ...state,
-                users: state.users.map(u => u.id === action.userId ? {...u, followed: false} : u)
+                items: state.items.map(u => u.id === action.userId ? {...u, followed: false} : u)
             }
         }
         case 'SET-USERS': {
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, items: [...state.items, ...action.users]}
         }
         default:
             return state
     }
 }
 
-export const followAC = (userId: string) => {
+export const followAC = (userId: number) => {
     return {type: 'FOLLOW', userId} as const
 }
 
-export const unfollowAC = (userId: string) => {
+export const unfollowAC = (userId: number) => {
     return {type: 'UNFOLLOW', userId} as const
 }
 
-export const setUsersAC = (users: Array<UserType>) => {
+export const setUsersAC = (users: Array<ItemsType>) => {
     return {type: 'SET-USERS', users} as const
 }
