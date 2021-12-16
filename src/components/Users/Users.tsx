@@ -5,15 +5,16 @@ import axios from "axios";
 import userPhoto from  '../../assets/images/user.png'
 
 export const Users = (props: UsersPropsType) => {
-
+let getUsers = () => {
     if (props.items.length === 0) {
 
         axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response => {
             props.setUser(response.data.items)
         })
-    }
+    }}
 
     return (<div>
+        <button onClick={getUsers}>GET USERS</button>
         {
             props.items.map(u => {
                 const onClickHandler = () => {
