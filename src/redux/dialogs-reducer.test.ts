@@ -33,10 +33,10 @@ beforeEach(() => {
 test('should added new message', () => {
     const endState = dialogsReducer(startState, addMessageActionCreator());
 
+    expect(startState.messages.length).toBe(3);
     expect(endState.messages.length).toBe(4);
-    expect(endState.dialogsItem.length).toBe(3);
     expect(endState.messages[3].message).toBe('Yes');
-    expect(endState.messages[2].message).toBe('Yo');
+    expect(endState.messages[3].message).toBeDefined();
 })
 
 test('should updated new message', () => {
