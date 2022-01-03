@@ -25,8 +25,8 @@ let initialState: initialStateUsersType = {
     items: [],
     totalCount: 0,
     error: null,
-    pageSize: 10,
-    currentPage: 2,
+    pageSize: 100,
+    currentPage: 1,
 }
 
 type ActionsType = ReturnType<typeof followAC>

@@ -1,6 +1,5 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Users} from "./Users";
 import {AppStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
 import {
@@ -11,6 +10,8 @@ import {
     setUsersAC,
     unfollowAC
 } from "../../redux/users-reducer";
+import axios from "axios";
+import {Users} from "./Users";
 
 type mapStateToPropsType = {
     items: Array<ItemsType>
@@ -26,8 +27,36 @@ type mapDispatchToPropsType = {
     setCurrentPage: (currentPage: number) => void
     setTotalUserCount: (totalCount: number) => void
 }
-
 export type UsersPropsType = mapStateToPropsType & mapDispatchToPropsType;
+
+export class UsersAPIComponent extends React.Component<UsersPropsType> {
+    componentDidMount() {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {
+            this.props.setUser(response.data.items);
+            this.props.setTotalUserCount(response.data.totalCount)
+        })
+    }
+
+    onPageChanged = (currentPage: number) => {
+        this.props.setCurrentPage(currentPage);
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${this.props.pageSize}`).then(response => {
+            this.props.setUser(response.data.items)
+        })
+    }
+
+    render() {
+        return <Users
+            totalCount={this.props.totalCount}
+            currentPage={this.props.currentPage}
+            pageSize={this.props.pageSize}
+            items={this.props.items}
+            onPageChanged={this.onPageChanged}
+            follow={this.props.follow}
+            unfollow={this.props.unfollow}
+        />
+
+    }
+}
 
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
@@ -57,4 +86,6 @@ const mapDispatchToProps = (dispatch: Dispatch): mapDispatchToPropsType => {
     }
 }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users)
+export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
+
+
