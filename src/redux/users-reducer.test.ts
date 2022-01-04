@@ -1,4 +1,12 @@
-import {followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, unfollowAC, usersReducer} from "./users-reducer";
+import {
+    followAC,
+    setCurrentPageAC,
+    setTotalUsersCountAC,
+    setUsersAC,
+    toggleIsFetchingAC,
+    unfollowAC,
+    usersReducer
+} from "./users-reducer";
 
 type PhotosType = {
     small: null | string
@@ -20,6 +28,7 @@ export type initialStateUsersType = {
     error: null
     pageSize: number
     currentPage: number
+    isFetching: boolean
 }
 
 
@@ -54,18 +63,19 @@ beforeEach(() => {
         error: null,
         pageSize: 100,
         currentPage: 1,
+        isFetching: false,
     }
 })
 
 test('should change follow to unfollow', () => {
-    const endState = usersReducer(startState, followAC(21625))
+    const endState = usersReducer(startState, followAC(21625));
 
     expect(startState.items[0].followed).toBeFalsy();
     expect(endState.items[0].followed).toBeTruthy();
 })
 
 test('should change unfollow to follow', () => {
-    const endState = usersReducer(startState, unfollowAC(21624))
+    const endState = usersReducer(startState, unfollowAC(21624));
 
     expect(startState.items[1].followed).toBeTruthy();
     expect(endState.items[1].followed).toBeFalsy();
@@ -96,7 +106,7 @@ test('set users', () => {
             "followed": false
         },]
 
-    const endState = usersReducer(startState, setUsersAC(initialItemState))
+    const endState = usersReducer(startState, setUsersAC(initialItemState));
 
     expect(startState.items.length).toBe(0);
     expect(endState.items.length).toBe(2);
@@ -105,15 +115,22 @@ test('set users', () => {
 })
 
 test('set current page', () => {
-    const endState = usersReducer(startState, setCurrentPageAC(5))
+    const endState = usersReducer(startState, setCurrentPageAC(5));
 
     expect(startState.currentPage).toBe(1);
     expect(endState.currentPage).toBe(5);
 })
 
 test('set total user count', () => {
-    const endState = usersReducer(startState, setTotalUsersCountAC(5))
+    const endState = usersReducer(startState, setTotalUsersCountAC(5));
 
     expect(startState.totalCount).toBe(0);
     expect(endState.totalCount).toBe(5);
+})
+
+test('should toggle is fetching', () => {
+    const endState = usersReducer(startState, toggleIsFetchingAC(true));
+
+    expect(startState.isFetching).toBeFalsy();
+    expect(endState.isFetching).toBeTruthy();
 })
