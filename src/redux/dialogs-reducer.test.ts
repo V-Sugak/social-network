@@ -1,9 +1,9 @@
 import {
-    addMessageActionCreator,
+    addMessage,
     DialogItemType,
     dialogsReducer,
     MessageType,
-    updateNewMessageTextActionCreator
+    updateNewMessageText
 } from "./dialogs-reducer";
 
 type  initialStateType = {
@@ -31,7 +31,7 @@ beforeEach(() => {
 })
 
 test('should added new message', () => {
-    const endState = dialogsReducer(startState, addMessageActionCreator());
+    const endState = dialogsReducer(startState, addMessage());
 
     expect(startState.messages.length).toBe(3);
     expect(endState.messages.length).toBe(4);
@@ -40,7 +40,7 @@ test('should added new message', () => {
 })
 
 test('should updated new message', () => {
-    const endState = dialogsReducer(startState, updateNewMessageTextActionCreator('It updated'));
+    const endState = dialogsReducer(startState, updateNewMessageText('It updated'));
 
     expect(endState.newMessageText).toBe('It updated');
     expect(startState.newMessageText).toBe('Yes');

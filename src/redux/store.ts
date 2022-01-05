@@ -1,5 +1,5 @@
-import {addPostActionCreator, updateNewPostTextActionCreator} from "./profile-reducer";
-import {addMessageActionCreator, updateNewMessageTextActionCreator} from "./dialogs-reducer";
+import {addPost, updateNewPostText} from "./profile-reducer";
+import {addMessage, updateNewMessageText} from "./dialogs-reducer";
 
 type DialogItemType = {
     id: string
@@ -45,10 +45,10 @@ type RootStateType = {
 }
 
 type ActionsType =
-    ReturnType<typeof addPostActionCreator>
-    | ReturnType<typeof addMessageActionCreator>
-    | ReturnType<typeof updateNewPostTextActionCreator>
-    | ReturnType<typeof updateNewMessageTextActionCreator>
+    ReturnType<typeof addPost>
+    | ReturnType<typeof addMessage>
+    | ReturnType<typeof updateNewPostText>
+    | ReturnType<typeof updateNewMessageText>
 
 type StoreType = {
     _state: RootStateType

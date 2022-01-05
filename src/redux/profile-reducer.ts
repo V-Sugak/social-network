@@ -3,7 +3,7 @@ export type PostType = {
     message: string
     likesCount: number
 }
-type ActionsType = ReturnType<typeof addPostActionCreator> | ReturnType<typeof updateNewPostTextActionCreator>
+type ActionsType = ReturnType<typeof addPost> | ReturnType<typeof updateNewPostText>
 
 type InitialStateProfileType = typeof initialState
 
@@ -39,11 +39,11 @@ export const profileReducer = (state: InitialStateProfileType = initialState, ac
             return state;
     }
 }
-export const addPostActionCreator = () => {
+export const addPost = () => {
     return {type: "ADD-POST"} as const
 }
 
-export const updateNewPostTextActionCreator = (text: string) => {
+export const updateNewPostText = (text: string) => {
     return {
         type: "UPDATE-NEW-POST-TEXT",
         newPostText: text

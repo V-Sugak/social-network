@@ -8,8 +8,8 @@ export const Dialogs = (props: DialogsPropsType) => {
     let dialogElement = props.state.dialogsItem.map(d => <DialogsItem key={d.id} name={d.name} id={d.id}/>)
     let messageElement = props.state.messages.map(m => <Message key={m.id} message={m.message}/>)
 
-    const onSendMessageClick = () => props.onSendMessageClick()
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => props.onChangeHandler(e.currentTarget.value)
+    const onSendMessageClick = () => props.addMessage()
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => props.updateNewMessageText(e.currentTarget.value)
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             onSendMessageClick()

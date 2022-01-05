@@ -1,4 +1,4 @@
-import {addPostActionCreator, profileReducer, updateNewPostTextActionCreator} from "./profile-reducer";
+import {addPost, profileReducer, updateNewPostText} from "./profile-reducer";
 
 export type PostType = {
     id: number
@@ -24,7 +24,7 @@ beforeEach(() => {
 })
 
 test('should added new post', () => {
-    let endState = profileReducer(startState, addPostActionCreator());
+    let endState = profileReducer(startState, addPost());
 
     expect(startState.posts.length).toBe(2);
     expect(endState.posts.length).toBe(3);
@@ -34,7 +34,7 @@ test('should added new post', () => {
 })
 
 test('should updated new post text', () => {
-    let endState = profileReducer(startState, updateNewPostTextActionCreator('It updated'));
+    let endState = profileReducer(startState, updateNewPostText('It updated'));
 
     expect(startState.newPostText).toBe('YES');
     expect(endState.newPostText).toBe('It updated');
