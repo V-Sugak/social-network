@@ -2,6 +2,7 @@ import React, {MouseEvent} from "react";
 import s from './users.module.css'
 import userPhoto from '../../assets/images/user.png'
 import {ItemsType} from "../../redux/users-reducer";
+import { NavLink } from "react-router-dom";
 
 type UsersProps = {
     pageSize: number
@@ -38,8 +39,12 @@ export const Users = (props:UsersProps) => {
                 }
                 return <div key={u.id}>
                     <span>
-                        <div><img src={u.photos.small !== null ? u.photos.small : userPhoto}
-                                  className={s.photoUser}/></div>
+                        <div>
+                            <NavLink to={'/profile'}>
+                            <img src={u.photos.small !== null ? u.photos.small : userPhoto}
+                                  className={s.photoUser}/>
+                            </NavLink>
+                        </div>
                         <div><button onClick={onClickHandler}> {u.followed ? 'FOLLOW' : 'UNFOLLOW'}</button></div>
                     </span>
                     <span>

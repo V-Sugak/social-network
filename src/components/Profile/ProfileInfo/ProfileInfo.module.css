@@ -1,7 +1,17 @@
 .descriptionBlock {
     padding: 10px;
+    display: flex;
 }
 img {
     width: 1000px;
     height: 180px;
+}
+
+.photo{
+    padding-right: 20px;
+}
+
+.photo img {
+    width: 250px;
+    height: 250px;
 }
