@@ -45,3 +45,4 @@ test('should updated new message', () => {
     expect(endState.newMessageText).toBe('It updated');
     expect(startState.newMessageText).toBe('Yes');
 })
+
