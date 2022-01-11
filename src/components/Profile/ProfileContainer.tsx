@@ -15,7 +15,7 @@ type MapDispatchProps = {
 };
 
 type PathParamsType = {
-    userId: string | undefined   //number???
+    userId: string
 };
 
 type ProfileContainerType = MapStatePropsType & MapDispatchProps;
@@ -24,7 +24,6 @@ type PropsType = RouteComponentProps<PathParamsType> & ProfileContainerType;
 
 class ProfileContainer extends React.Component<PropsType> {
     componentDidMount() {
-        debugger
         let userId = this.props.match.params.userId;
         if (!userId) {
             userId = '2';
