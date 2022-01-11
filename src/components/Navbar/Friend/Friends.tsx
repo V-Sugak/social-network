@@ -16,7 +16,7 @@ export const Friends = (props: FriendPropsType) => {
         <div className={s.fr}>
             {props.friends.map(f => {
                 return (
-                    <div className={s.f}>
+                    <div key={f.id} className={s.f}>
                         <div><img className={s.avatar} src={f.avatar} alt=""/></div>
                         <div> {f.name}</div>
                     </div>

@@ -5,7 +5,7 @@ import {MyPostsPropsType} from './MyPostsContainer';
 
 
 export const MyPosts = (props: MyPostsPropsType) => {
-    let postsElements = props.posts.map(p => <Post message={p.message} likeCount={p.likesCount}/>)
+    let postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likeCount={p.likesCount}/>)
     const onAddPost = () => props.addPost()
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => props.updateNewPostText(e.currentTarget.value)
 
