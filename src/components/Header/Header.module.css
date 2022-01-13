@@ -1,13 +1,23 @@
 .head {
     grid-area: h;
     background-color: seagreen;
- }
+}
 
 .logo {
     padding: 15px 0 0 20px;
-    font-family:  cursive;
+    font-family: cursive;
     font-weight: bold;
     color: white;
     font-size: 22px;
-   }
+}
 
+
+.loginBlock {
+    float: right;
+}
+
+.loginBlock a {
+    color: white;
+    text-decoration: none;
+    padding-right: 20px;
+}
