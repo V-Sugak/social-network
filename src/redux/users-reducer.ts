@@ -1,29 +1,5 @@
-type PhotosType = {
-    small: null | string
-    large: null | string
-}
-
-export type ItemsType = {
-    name: string
-    id: number
-    uniqueUrlName: null | string
-    photos: PhotosType
-    status: null | string
-    followed: boolean
-}
-
-export type initialStateUsersType = {
-    items: Array<ItemsType>
-    totalCount: number
-    error: null
-    pageSize: number
-    currentPage: number
-    isFetching: boolean
-}
-
-
-let initialState: initialStateUsersType = {
-    items: [],
+const initialState: UsersStateType = {
+    users: [],
     totalCount: 0,
     error: null,
     pageSize: 100,
@@ -31,29 +7,22 @@ let initialState: initialStateUsersType = {
     isFetching: false,
 }
 
-type ActionsType = ReturnType<typeof follow>
-    | ReturnType<typeof unfollow>
-    | ReturnType<typeof setUsers>
-    | ReturnType<typeof setCurrentPage>
-    | ReturnType<typeof setTotalUsersCount>
-    | ReturnType<typeof toggleIsFetching>
-
-export const usersReducer = (state: initialStateUsersType = initialState, action: ActionsType): initialStateUsersType => {
+export const usersReducer = (state: UsersStateType = initialState, action: ActionsType): UsersStateType => {
     switch (action.type) {
         case 'FOLLOW': {
             return {
                 ...state,
-                items: state.items.map(u => u.id === action.userId ? {...u, followed: true} : u)
+                users: state.users.map(u => u.id === action.userId ? {...u, followed: true} : u)
             }
         }
         case 'UNFOLLOW' : {
             return {
                 ...state,
-                items: state.items.map(u => u.id === action.userId ? {...u, followed: false} : u)
+                users: state.users.map(u => u.id === action.userId ? {...u, followed: false} : u)
             }
         }
         case 'SET-USERS': {
-            return {...state, items: action.users}
+            return {...state, users: action.users}
         }
         case  'SET-CURRENT-PAGE': {
             return {...state, currentPage: action.currentPage}
@@ -69,26 +38,51 @@ export const usersReducer = (state: initialStateUsersType = initialState, action
     }
 }
 
-export const follow = (userId: number) => {
+//actions
+export const followAC = (userId: number) => {
     return {type: 'FOLLOW', userId} as const
 }
-
-export const unfollow = (userId: number) => {
+export const unfollowAC = (userId: number) => {
     return {type: 'UNFOLLOW', userId} as const
 }
-
-export const setUsers = (users: Array<ItemsType>) => {
+export const setUsersAC = (users: Array<UserType>) => {
     return {type: 'SET-USERS', users} as const
 }
-
-export const setCurrentPage = (currentPage: number) => {
+export const setCurrentPageAC = (currentPage: number) => {
     return {type: 'SET-CURRENT-PAGE', currentPage} as const
 }
-
-export const setTotalUsersCount = (totalCount: number) => {
+export const setTotalUsersCountAC = (totalCount: number) => {
     return {type: 'SET-TOTAL-USERS-COUNT', totalCount} as const
 }
-
-export const toggleIsFetching = (isFetching: boolean) => {
+export const toggleIsFetchingAC = (isFetching: boolean) => {
     return {type: 'TOGGLE IS FETCHING', isFetching} as const
+}
+
+//types
+type ActionsType =
+    | ReturnType<typeof followAC>
+    | ReturnType<typeof unfollowAC>
+    | ReturnType<typeof setUsersAC>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setTotalUsersCountAC>
+    | ReturnType<typeof toggleIsFetchingAC>
+
+type PhotosType = {
+    small: null | string
+    large: null | string
+}
+export type UserType = {
+    id: number
+    name: string
+    status: null | string
+    photos: PhotosType
+    followed: boolean
+}
+export type UsersStateType = {
+    users: Array<UserType>
+    totalCount: number
+    error: null
+    pageSize: number
+    currentPage: number
+    isFetching: boolean
 }

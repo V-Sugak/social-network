@@ -1,4 +1,5 @@
 import axios from "axios";
+import {UserType} from "../redux/users-reducer";
 
 const instance = axios.create(
     {
@@ -10,9 +11,13 @@ const instance = axios.create(
 
 export const usersURL = {
     getUsers(currentPage: number, pageSize: number) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`, {
-            withCredentials: true
-        }).then(response => response.data)
-    }
+        return instance.get<UsersSetResponseType>(`users?page=${currentPage}&count=${pageSize}`).then(response => response.data)
+    },
 }
 
+//types
+export type UsersSetResponseType = {
+    items: Array<UserType>
+    totalCount: number
+    error: null
+}

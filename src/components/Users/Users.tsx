@@ -1,21 +1,21 @@
 import React, {MouseEvent} from "react";
 import s from './users.module.css'
 import userPhoto from '../../assets/images/user.png'
-import {ItemsType} from "../../redux/users-reducer";
+import {UserType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
 import axios from "axios";
 
-type UsersProps = {
+type UsersPropsType = {
     pageSize: number
     totalCount: number
     currentPage: number
-    items: Array<ItemsType>
+    users: Array<UserType>
     onPageChanged: (currentPage: number) => void
     follow: (userId: number) => void
     unfollow: (userId: number) => void
 }
 
-export const Users = (props: UsersProps) => {
+export const Users = (props: UsersPropsType) => {
 
     let pagesCount = Math.ceil(props.totalCount / props.pageSize);
     let pages = [];
@@ -34,7 +34,7 @@ export const Users = (props: UsersProps) => {
             })}
         </div>
         {
-            props.items.map(u => {
+            props.users.map(u => {
                 const onClickFollowHandler = () => {
                     axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {},
                         {
