@@ -1,10 +1,9 @@
 const initialState: UsersStateType = {
     users: [],
-    totalCount: 0,
+    totalCount: 0,                        //количество всех пользователей(с сервака)
     error: null,
     pageSize: 100,
     currentPage: 1,
-    isFetching: false,
 }
 
 export const usersReducer = (state: UsersStateType = initialState, action: ActionsType): UsersStateType => {
@@ -30,19 +29,16 @@ export const usersReducer = (state: UsersStateType = initialState, action: Actio
         case 'SET-TOTAL-USERS-COUNT': {
             return {...state, totalCount: action.totalCount}
         }
-        case 'TOGGLE IS FETCHING': {
-            return {...state, isFetching: action.isFetching}
-        }
         default:
             return state
     }
 }
 
 //actions
-export const followAC = (userId: number) => {
+export const followAC = (userId: string) => {
     return {type: 'FOLLOW', userId} as const
 }
-export const unfollowAC = (userId: number) => {
+export const unfollowAC = (userId: string) => {
     return {type: 'UNFOLLOW', userId} as const
 }
 export const setUsersAC = (users: Array<UserType>) => {
@@ -54,27 +50,17 @@ export const setCurrentPageAC = (currentPage: number) => {
 export const setTotalUsersCountAC = (totalCount: number) => {
     return {type: 'SET-TOTAL-USERS-COUNT', totalCount} as const
 }
-export const toggleIsFetchingAC = (isFetching: boolean) => {
-    return {type: 'TOGGLE IS FETCHING', isFetching} as const
-}
+
 
 //types
-type ActionsType =
-    | ReturnType<typeof followAC>
-    | ReturnType<typeof unfollowAC>
-    | ReturnType<typeof setUsersAC>
-    | ReturnType<typeof setCurrentPageAC>
-    | ReturnType<typeof setTotalUsersCountAC>
-    | ReturnType<typeof toggleIsFetchingAC>
-
-type PhotosType = {
-    small: null | string
-    large: null | string
+export type PhotosType = {
+    small: string
+    large: string
 }
 export type UserType = {
-    id: number
+    id: string
     name: string
-    status: null | string
+    status: string
     photos: PhotosType
     followed: boolean
 }
@@ -84,5 +70,10 @@ export type UsersStateType = {
     error: null
     pageSize: number
     currentPage: number
-    isFetching: boolean
 }
+type ActionsType =
+    | ReturnType<typeof followAC>
+    | ReturnType<typeof unfollowAC>
+    | ReturnType<typeof setUsersAC>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setTotalUsersCountAC>

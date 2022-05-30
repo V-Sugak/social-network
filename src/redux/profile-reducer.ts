@@ -1,38 +1,6 @@
-export type PostType = {
-    id: number
-    message: string
-    likesCount: number
-}
-type ContactsType = {
-    facebook: string
-    website: null | string
-    vk: null | string
-    twitter: null | string
-    instagram: null | string
-    youtube: null | string,
-    github: null | string
-    mainLink: null | string
-}
-type PhotosType = {
-    small: string
-    large: string
-}
-export type ProfileType = {
-    aboutMe: string
-    contacts: ContactsType
-    lookingForAJob: boolean
-    lookingForAJobDescription: string
-    fullName: string
-    userId: number
-    photos: PhotosType
-}
-export type InitialStateProfileType = {
-    posts: Array<PostType>
-    newPostText: string
-    profile: ProfileType | null
-}
+import {PhotosType} from "./users-reducer";
 
-let initialState = {
+let initialState: StateProfileType = {
     posts: [
         {id: 1, message: "Hi, how are you", likesCount: 15},
         {id: 2, message: "It's my first post", likesCount: 30}
@@ -41,12 +9,7 @@ let initialState = {
     profile: null
 }
 
-type ActionsType =
-    ReturnType<typeof addPost>
-    | ReturnType<typeof updateNewPostText>
-    | ReturnType<typeof setUsersProfile>
-
-export const profileReducer = (state: InitialStateProfileType = initialState, action: ActionsType): InitialStateProfileType => {
+export const profileReducer = (state: StateProfileType = initialState, action: ActionsType): StateProfileType => {
     switch (action.type) {
         case "ADD-POST": {
             let newPost: PostType = {
@@ -65,7 +28,7 @@ export const profileReducer = (state: InitialStateProfileType = initialState, ac
         }
         case "UPDATE-NEW-POST-TEXT":
             return {...state, newPostText: action.newPostText};
-        case "SET-USERS-PROFILE": {
+        case "SET-USER-PROFILE": {
             return {
                 ...state,
                 profile: action.profile
@@ -75,17 +38,52 @@ export const profileReducer = (state: InitialStateProfileType = initialState, ac
             return state;
     }
 }
-export const addPost = () => {
+
+//actions
+export const addPostAC = () => {
     return {type: "ADD-POST"} as const
 }
-
-export const setUsersProfile = (profile: ProfileType) => {
-    return {type: "SET-USERS-PROFILE", profile} as const
+export const setUserProfileAC = (profile: UserProfileType) => {
+    return {type: "SET-USER-PROFILE", profile} as const
 }
-
-export const updateNewPostText = (text: string) => {
+export const updateNewPostTextAC = (text: string) => {
     return {
         type: "UPDATE-NEW-POST-TEXT",
         newPostText: text
     } as const
 }
+
+//types
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+type ContactsType = {
+    github: string
+    vk: string
+    facebook: string
+    instagram: string
+    twitter: string
+    website: string
+    youtube: string,
+    mainLink: string
+}
+export type UserProfileType = {
+    userId: number
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    contacts: ContactsType
+    photos: PhotosType
+    aboutMe: string
+}
+export type StateProfileType = {
+    posts: Array<PostType>
+    newPostText: string
+    profile: UserProfileType | null
+}
+type ActionsType =
+    | ReturnType<typeof addPostAC>
+    | ReturnType<typeof updateNewPostTextAC>
+    | ReturnType<typeof setUserProfileAC>

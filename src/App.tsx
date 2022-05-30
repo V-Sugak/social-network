@@ -1,9 +1,9 @@
-import React from 'react';
-import {Route} from 'react-router-dom';
-import './App.css';
-import {Music} from './components/Music/Music';
-import {News} from './components/News/News';
-import {Settings} from './components/Settings/Settings';
+import React from "react";
+import {Route} from "react-router-dom";
+import "./App.css";
+import {Music} from "./components/Music/Music";
+import {News} from "./components/News/News";
+import {Settings} from "./components/Settings/Settings";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {NavbarContainer} from "./components/Navbar/NavbarContainer";
 import UsersContainer from "./components/Users/UsersContainer";

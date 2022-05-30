@@ -1,10 +1,11 @@
-import React from 'react';
-import s from './ProfileInfo.module.css'
-import {ProfileType} from "../../../redux/profile-reducer";
+import React from "react";
+import s from "./ProfileInfo.module.css"
+import {UserProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
+import userPhoto from "../../../assets/images/user.png";
 
 type ProfileInfoPropsType = {
-    profile: ProfileType | null
+    profile: UserProfileType | null
 }
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
@@ -20,7 +21,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
             </div>
             <div className={s.descriptionBlock}>
                 <div className={s.photo}>
-                    <img src={props.profile.photos.large}/>
+                    <img src={props.profile.photos.large !== null ? props.profile.photos.large : userPhoto}/>
                 </div>
                 <div>
                     <h2>{props.profile.fullName}</h2>

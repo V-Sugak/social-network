@@ -1,4 +1,4 @@
-import {addPost, updateNewPostText} from "./profile-reducer";
+import {addPostAC, updateNewPostTextAC} from "./profile-reducer";
 import {addMessage, updateNewMessageText} from "./dialogs-reducer";
 
 type DialogItemType = {
@@ -45,9 +45,9 @@ type RootStateType = {
 }
 
 type ActionsType =
-    ReturnType<typeof addPost>
+    ReturnType<typeof addPostAC>
     | ReturnType<typeof addMessage>
-    | ReturnType<typeof updateNewPostText>
+    | ReturnType<typeof updateNewPostTextAC>
     | ReturnType<typeof updateNewMessageText>
 
 type StoreType = {

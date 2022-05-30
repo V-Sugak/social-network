@@ -1,4 +1,4 @@
-import {addPost, InitialStateProfileType, profileReducer, setUsersProfile, updateNewPostText} from "./profile-reducer";
+import {addPostAC, StateProfileType, profileReducer, setUserProfileAC, updateNewPostTextAC} from "./profile-reducer";
 
 export type PostType = {
     id: number
@@ -6,7 +6,7 @@ export type PostType = {
     likesCount: number
 }
 
-let startState: InitialStateProfileType;
+let startState: StateProfileType;
 
 beforeEach(() => {
     startState = {
@@ -20,7 +20,7 @@ beforeEach(() => {
 })
 
 test('should added new post', () => {
-    let endState = profileReducer(startState, addPost());
+    let endState = profileReducer(startState, addPostAC());
 
     expect(startState.posts.length).toBe(2);
     expect(endState.posts.length).toBe(3);
@@ -30,7 +30,7 @@ test('should added new post', () => {
 })
 
 test('should updated new post text', () => {
-    let endState = profileReducer(startState, updateNewPostText('It updated'));
+    let endState = profileReducer(startState, updateNewPostTextAC('It updated'));
 
     expect(startState.newPostText).toBe('YES');
     expect(endState.newPostText).toBe('It updated');
@@ -58,7 +58,7 @@ test('should set profile of user', () => {
             "large": "https://social-network.samuraijs.com/activecontent/images/users/2/user.jpg?v=0"
         }
     }
-    let endState = profileReducer(startState, setUsersProfile(profileUser));
+    let endState = profileReducer(startState, setUserProfileAC(profileUser));
 
     expect(startState.profile).toBe(null);
     expect(endState.profile).toEqual(profileUser);

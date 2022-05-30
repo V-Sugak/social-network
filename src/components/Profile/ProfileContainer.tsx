@@ -1,26 +1,12 @@
-import React from 'react';
-import {Profile} from './Profile';
-import axios from "axios";
-import {connect} from 'react-redux';
-import {ProfileType, setUsersProfile} from "../../redux/profile-reducer";
+import React from "react";
+import {Profile} from "./Profile";
+import {connect} from "react-redux";
+import {UserProfileType, setUserProfileAC} from "../../redux/profile-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-
-type MapStatePropsType = {
-    profile: ProfileType | null
-};
-
-type MapDispatchProps = {
-    setUsersProfile: (profile: any) => void
-};
-
-type PathParamsType = {
-    userId: string
-};
-
-type ProfileContainerType = MapStatePropsType & MapDispatchProps;
-type PropsType = RouteComponentProps<PathParamsType> & ProfileContainerType;
-
+import {usersURL} from "../../api/api";
+import {toggleIsFetchingAC} from "../../redux/app-reducer";
+import {Preloader} from "../common/Preloader/Preloader";
 
 class ProfileContainer extends React.Component<PropsType> {
     componentDidMount() {
@@ -28,14 +14,16 @@ class ProfileContainer extends React.Component<PropsType> {
         if (!userId) {
             userId = '2';
         }
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`).then(response => {
+        this.props.toggleIsFetching(true)
+        usersURL.setUserProfileInformation(userId).then(response => {
+            this.props.toggleIsFetching(false)
             this.props.setUsersProfile(response.data);
         })
     }
 
     render() {
         return <div>
-            <Profile profile={this.props.profile}/>
+            {this.props.isFetching ? <Preloader/> : <Profile profile={this.props.profile}/>}
         </div>
     }
 
@@ -43,10 +31,29 @@ class ProfileContainer extends React.Component<PropsType> {
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        isFetching: state.app.isFetching,
     }
 };
 
 const WithRouterDataComponent = withRouter(ProfileContainer);
 
-export default connect(mapStateToProps, {setUsersProfile})(WithRouterDataComponent);
+export default connect(mapStateToProps, {
+    setUsersProfile: setUserProfileAC,
+    toggleIsFetching: toggleIsFetchingAC,
+})(WithRouterDataComponent);
+
+//types
+type MapStatePropsType = {
+    profile: UserProfileType | null
+    isFetching: boolean
+};
+type MapDispatchProps = {
+    setUsersProfile: (profile: any) => void
+    toggleIsFetching: (isFetching: boolean) => void
+};
+type PathParamsType = {
+    userId: string
+};
+type ProfileContainerType = MapStatePropsType & MapDispatchProps;
+type PropsType = RouteComponentProps<PathParamsType> & ProfileContainerType;
