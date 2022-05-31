@@ -1,19 +1,9 @@
 import React, {MouseEvent} from "react";
-import s from './users.module.css'
-import userPhoto from '../../assets/images/user.png'
+import s from "./users.module.css";
+import userPhoto from "../../assets/images/user.png";
 import {UserType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
 import axios from "axios";
-
-type UsersPropsType = {
-    pageSize: number
-    totalCount: number
-    currentPage: number
-    users: Array<UserType>
-    onPageChanged: (currentPage: number) => void
-    follow: (userId: string) => void
-    unfollow: (userId: string) => void
-}
 
 export const Users = (props: UsersPropsType) => {
 
@@ -84,4 +74,15 @@ export const Users = (props: UsersPropsType) => {
             })
         }
     </div>
+}
+
+//types
+type UsersPropsType = {
+    pageSize: number
+    totalCount: number
+    currentPage: number
+    users: Array<UserType>
+    onPageChanged: (currentPage: number) => void
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
 }

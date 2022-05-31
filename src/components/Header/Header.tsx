@@ -1,11 +1,6 @@
-import React from 'react';
-import {NavLink} from 'react-router-dom';
-import s from './Header.module.css';
-
-type HeaderPropsType = {
-    isAuth: boolean
-    login: string | null
-}
+import React from "react";
+import {NavLink} from "react-router-dom";
+import s from "./Header.module.css";
 
 export const Header = (props: HeaderPropsType) => {
     return (
@@ -18,5 +13,10 @@ export const Header = (props: HeaderPropsType) => {
             </div>
         </header>
     )
-}
+}  //сделать LOGOUT и сраницу LOGIN!!!
 
+//types
+type HeaderPropsType = {
+    isAuth: boolean
+    login: string
+}

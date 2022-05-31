@@ -10,13 +10,20 @@ const instance = axios.create(
     }
 )
 
+//api
 export const usersURL = {
     getUsers(currentPage: number, pageSize: number) {
-        return instance.get<UsersSetResponseType>(`users?page=${currentPage}&count=${pageSize}`).then(response => response.data)
+        return instance.get<UsersSetResponseType>(`users?page=${currentPage}&count=${pageSize}`)
+            .then(response => response.data)
     },
     setUserProfileInformation(userId: string) {
-        return instance.get<UserProfileType>(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
+        return instance.get<UserProfileType>(`profile/${userId}`)
     },
+}
+export const authURL = {
+    me() {
+        return instance.get<AuthResponseType>('auth/me')
+    }
 }
 
 //types
@@ -24,4 +31,14 @@ export type UsersSetResponseType = {
     items: Array<UserType>
     totalCount: number
     error: null
+}
+type AuthenticatedUserData = {
+    id: number
+    email: string
+    login: string
+}
+type AuthResponseType = {
+    resultCode: number
+    messages: Array<string>,
+    data: AuthenticatedUserData
 }

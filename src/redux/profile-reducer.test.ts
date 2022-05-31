@@ -1,4 +1,11 @@
-import {addPostAC, StateProfileType, profileReducer, setUserProfileAC, updateNewPostTextAC} from "./profile-reducer";
+import {
+    addPostAC,
+    StateProfileType,
+    profileReducer,
+    setUserProfileAC,
+    updateNewPostTextAC,
+    UserProfileType
+} from "./profile-reducer";
 
 export type PostType = {
     id: number
@@ -37,17 +44,17 @@ test('should updated new post text', () => {
 })
 
 test('should set profile of user', () => {
-    const profileUser = {
+    const profileUser: UserProfileType = {
         "aboutMe": "я круто чувак 1001%",
         "contacts": {
             "facebook": "facebook.com",
-            "website": null,
+            "website": "",
             "vk": "vk.com/dimych",
             "twitter": "https://twitter.com/@sdf",
             "instagram": "instagra.com/sds",
-            "youtube": null,
+            "youtube": "",
             "github": "github.com",
-            "mainLink": null
+            "mainLink": ""
         },
         "lookingForAJob": true,
         "lookingForAJobDescription": "не ищу, а дурачусь",

@@ -13,25 +13,6 @@ import {Preloader} from "../common/Preloader/Preloader";
 import {usersURL} from "../../api/api";
 import {toggleIsFetchingAC} from "../../redux/app-reducer";
 
-
-type mapStateToPropsType = {
-    users: Array<UserType>
-    pageSize: number
-    totalCount: number
-    currentPage: number
-    isFetching: boolean
-}
-
-type mapDispatchToPropsType = {
-    follow: (userId: string) => void
-    unfollow: (userId: string) => void
-    setUsers: (users: Array<UserType>) => void
-    setCurrentPage: (currentPage: number) => void
-    setTotalUsersCount: (totalCount: number) => void
-    toggleIsFetching: (isFetching: boolean) => void
-}
-export type UsersContainerPropsType = mapStateToPropsType & mapDispatchToPropsType;
-
 export class UsersContainer extends React.Component<UsersContainerPropsType> {
     componentDidMount() {
         this.props.toggleIsFetching(true)
@@ -86,5 +67,23 @@ export default connect(mapStateToProps,
         setTotalUsersCount: setTotalUsersCountAC,
         toggleIsFetching: toggleIsFetchingAC,
     })(UsersContainer)
+
+//types
+type mapStateToPropsType = {
+    users: Array<UserType>
+    pageSize: number
+    totalCount: number
+    currentPage: number
+    isFetching: boolean
+}
+type mapDispatchToPropsType = {
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+    setUsers: (users: Array<UserType>) => void
+    setCurrentPage: (currentPage: number) => void
+    setTotalUsersCount: (totalCount: number) => void
+    toggleIsFetching: (isFetching: boolean) => void
+}
+export type UsersContainerPropsType = mapStateToPropsType & mapDispatchToPropsType;
 
 

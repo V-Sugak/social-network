@@ -10,9 +10,7 @@ import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 
-type AppPropsType = {}
-
-const App = (props: AppPropsType) => {
+const App = () => {
 
     return (
         <div className="app-wrapper">
@@ -28,6 +26,6 @@ const App = (props: AppPropsType) => {
             </div>
         </div>
     );
-}
+} //- в URL profile даем название URI параметру
 export default App;
 

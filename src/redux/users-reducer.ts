@@ -1,6 +1,6 @@
 const initialState: UsersStateType = {
     users: [],
-    totalCount: 0,                        //количество всех пользователей(с сервака)
+    totalCount: 0,                        //количество всех пользователей(с сервера)
     error: null,
     pageSize: 100,
     currentPage: 1,
@@ -8,25 +8,25 @@ const initialState: UsersStateType = {
 
 export const usersReducer = (state: UsersStateType = initialState, action: ActionsType): UsersStateType => {
     switch (action.type) {
-        case 'FOLLOW': {
+        case "FOLLOW": {
             return {
                 ...state,
                 users: state.users.map(u => u.id === action.userId ? {...u, followed: true} : u)
             }
         }
-        case 'UNFOLLOW' : {
+        case "UNFOLLOW" : {
             return {
                 ...state,
                 users: state.users.map(u => u.id === action.userId ? {...u, followed: false} : u)
             }
         }
-        case 'SET-USERS': {
+        case "SET-USERS": {
             return {...state, users: action.users}
         }
-        case  'SET-CURRENT-PAGE': {
+        case  "SET-CURRENT-PAGE": {
             return {...state, currentPage: action.currentPage}
         }
-        case 'SET-TOTAL-USERS-COUNT': {
+        case "SET-TOTAL-USERS-COUNT": {
             return {...state, totalCount: action.totalCount}
         }
         default:
@@ -35,10 +35,10 @@ export const usersReducer = (state: UsersStateType = initialState, action: Actio
 }
 
 //actions
-export const followAC = (userId: string) => {
+export const followAC = (userId: number) => {
     return {type: 'FOLLOW', userId} as const
 }
-export const unfollowAC = (userId: string) => {
+export const unfollowAC = (userId: number) => {
     return {type: 'UNFOLLOW', userId} as const
 }
 export const setUsersAC = (users: Array<UserType>) => {
@@ -58,7 +58,7 @@ export type PhotosType = {
     large: string
 }
 export type UserType = {
-    id: string
+    id: number
     name: string
     status: string
     photos: PhotosType
