@@ -1,9 +1,8 @@
 import {
     followAC, UsersStateType, setTotalUsersCountAC,
     setUsersAC,
-    toggleIsFetchingAC,
     unfollowAC,
-    usersReducer
+    usersReducer, UserType
 } from "./users-reducer";
 
 let startState: UsersStateType;
@@ -15,27 +14,26 @@ beforeEach(() => {
                 "name": "PoshelykDavid",
                 "id": 21625,
                 "photos": {
-                    "small": null,
-                    "large": null
+                    "small": "",
+                    "large": ""
                 },
-                "status": null,
+                "status": "",
                 "followed": false
             },
             {
                 "name": "David2001",
                 "id": 21624,
                 "photos": {
-                    "small": null,
-                    "large": null
+                    "small": "",
+                    "large": ""
                 },
-                "status": null,
+                "status": "",
                 "followed": true
             }],
         totalCount: 0,
         error: null,
         pageSize: 100,
         currentPage: 1,
-        isFetching: false,
     }
 })
 
@@ -55,26 +53,24 @@ test('should change unfollow to follow', () => {
 
 test('set users', () => {
     startState.users = [];
-    const initialItemState = [{
+    const initialItemState: Array<UserType> = [{
         "name": "stivv",
         "id": 21619,
-        "uniqueUrlName": null,
         "photos": {
-            "small": null,
-            "large": null
+            "small": "",
+            "large": ""
         },
-        "status": null,
+        "status": "",
         "followed": false
     },
         {
             "name": "nastassia",
             "id": 21618,
-            "uniqueUrlName": null,
             "photos": {
-                "small": null,
-                "large": null
+                "small": "",
+                "large": ""
             },
-            "status": null,
+            "status": "",
             "followed": false
         },]
 
@@ -99,6 +95,7 @@ test('set total user count', () => {
     expect(startState.totalCount).toBe(0);
     expect(endState.totalCount).toBe(5);
 })
+/*
 
 test('should toggle is fetching', () => {
     const endState = usersReducer(startState, toggleIsFetchingAC(true));
@@ -106,3 +103,4 @@ test('should toggle is fetching', () => {
     expect(startState.isFetching).toBeFalsy();
     expect(endState.isFetching).toBeTruthy();
 })
+*/

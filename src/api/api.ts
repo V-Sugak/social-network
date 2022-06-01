@@ -19,10 +19,16 @@ export const usersURL = {
     setUserProfileInformation(userId: string) {
         return instance.get<UserProfileType>(`profile/${userId}`)
     },
+    follow(userId: number) {
+        return instance.post<ResponseType>(`follow/${userId}`)
+    },
+    unfollow(userId: number) {
+        return instance.delete<ResponseType>(`follow/${userId}`)
+    },
 }
 export const authURL = {
     me() {
-        return instance.get<AuthResponseType>('auth/me')
+        return instance.get<ResponseType<AuthenticatedUserData>>('auth/me')
     }
 }
 
@@ -37,8 +43,8 @@ type AuthenticatedUserData = {
     email: string
     login: string
 }
-type AuthResponseType = {
+type ResponseType<T = {}> = {
     resultCode: number
     messages: Array<string>,
-    data: AuthenticatedUserData
+    data: T
 }

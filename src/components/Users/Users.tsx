@@ -3,7 +3,7 @@ import s from "./users.module.css";
 import userPhoto from "../../assets/images/user.png";
 import {UserType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
+import {usersURL} from "../../api/api";
 
 export const Users = (props: UsersPropsType) => {
 
@@ -26,22 +26,14 @@ export const Users = (props: UsersPropsType) => {
         {
             props.users.map(u => {
                 const onClickFollowHandler = () => {
-                    axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {},
-                        {
-                            withCredentials: true,
-                            headers: {'API-KEY': '4fa630d1-6fae-4037-80dd-d195b9c3e03c'}
-                        }).then(response => {
+                    usersURL.follow(u.id).then(response => {
                         if (response.data.resultCode === 0) {
                             props.follow(u.id);
                         }
                     })
                 }
                 const onClickUnfollowHandler = () => {
-                    axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
-                        {
-                            withCredentials: true,
-                            headers: {'API-KEY': '4fa630d1-6fae-4037-80dd-d195b9c3e03c'}
-                        }).then(response => {
+                    usersURL.unfollow(u.id).then(response => {
                         if (response.data.resultCode === 0) {
                             props.unfollow(u.id);
                         }
