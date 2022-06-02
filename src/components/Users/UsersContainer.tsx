@@ -6,7 +6,7 @@ import {
     UserType,
     setCurrentPageAC,
     setTotalUsersCountAC,
-    unfollowAC, setUsersAC
+    unfollowAC, setUsersAC, isDisabledAC
 } from "../../redux/users-reducer";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
@@ -43,6 +43,8 @@ export class UsersContainer extends React.Component<UsersContainerPropsType> {
                 onPageChanged={this.onPageChanged}
                 follow={this.props.follow}
                 unfollow={this.props.unfollow}
+                isDisabledHandler={this.props.isDisabledHandler}
+                isDisabled={this.props.isDisabled}
             />
         </>
     }
@@ -55,6 +57,7 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
         totalCount: state.usersPage.totalCount,
         currentPage: state.usersPage.currentPage,
         isFetching: state.app.isFetching,
+        isDisabled: state.usersPage.isDisabled
     }
 }
 
@@ -66,6 +69,7 @@ export default connect(mapStateToProps,
         setCurrentPage: setCurrentPageAC,
         setTotalUsersCount: setTotalUsersCountAC,
         toggleIsFetching: toggleIsFetchingAC,
+        isDisabledHandler: isDisabledAC
     })(UsersContainer)
 
 //types
@@ -75,6 +79,7 @@ type mapStateToPropsType = {
     totalCount: number
     currentPage: number
     isFetching: boolean
+    isDisabled: Array<number>
 }
 type mapDispatchToPropsType = {
     follow: (userId: number) => void
@@ -83,6 +88,7 @@ type mapDispatchToPropsType = {
     setCurrentPage: (currentPage: number) => void
     setTotalUsersCount: (totalCount: number) => void
     toggleIsFetching: (isFetching: boolean) => void
+    isDisabledHandler: (userId: number, isFetching: boolean) => void
 }
 export type UsersContainerPropsType = mapStateToPropsType & mapDispatchToPropsType;
 

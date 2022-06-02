@@ -1,12 +1,11 @@
 import React, {MouseEvent} from "react";
 import s from "./users.module.css";
-import userPhoto from "../../assets/images/user.png";
 import {UserType} from "../../redux/users-reducer";
-import {NavLink} from "react-router-dom";
 import {usersURL} from "../../api/api";
+import {NavLink} from "react-router-dom";
+import userPhoto from "../../assets/images/user.png";
 
 export const Users = (props: UsersPropsType) => {
-
     let pagesCount = Math.ceil(props.totalCount / props.pageSize);
     let pages = [];
 
@@ -26,17 +25,25 @@ export const Users = (props: UsersPropsType) => {
         {
             props.users.map(u => {
                 const onClickFollowHandler = () => {
+                    //    props.toggleIsFetching(true)
+                    props.isDisabledHandler(u.id, true)
                     usersURL.follow(u.id).then(response => {
                         if (response.data.resultCode === 0) {
                             props.follow(u.id);
                         }
+                        //         props.toggleIsFetching(false)
+                        props.isDisabledHandler(u.id, false)
                     })
                 }
                 const onClickUnfollowHandler = () => {
+                    //   props.toggleIsFetching(true)
+                    props.isDisabledHandler(u.id, true)
                     usersURL.unfollow(u.id).then(response => {
                         if (response.data.resultCode === 0) {
                             props.unfollow(u.id);
                         }
+                        //        props.toggleIsFetching(false)
+                        props.isDisabledHandler(u.id, false)
                     })
                 }
                 return <div key={u.id}>
@@ -48,8 +55,10 @@ export const Users = (props: UsersPropsType) => {
                             </NavLink>
                         </div>
                         <div> {u.followed ?
-                            <button onClick={onClickUnfollowHandler}> FOLLOW </button>
-                            : <button onClick={onClickFollowHandler}> UNFOLLOW </button>}
+                            <button onClick={onClickUnfollowHandler}
+                                    disabled={props.isDisabled.some(id => id === u.id)}> FOLLOW </button>
+                            : <button onClick={onClickFollowHandler}
+                                      disabled={props.isDisabled.some(id => id === u.id)}> UNFOLLOW </button>}
                             </div>
                     </span>
                     <span>
@@ -73,8 +82,10 @@ type UsersPropsType = {
     pageSize: number
     totalCount: number
     currentPage: number
+    isDisabled: Array<number>
     users: Array<UserType>
     onPageChanged: (currentPage: number) => void
     follow: (userId: number) => void
     unfollow: (userId: number) => void
+    isDisabledHandler: (userId: number, isFetching: boolean) => void
 }

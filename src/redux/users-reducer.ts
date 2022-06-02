@@ -4,6 +4,7 @@ const initialState: UsersStateType = {
     error: null,
     pageSize: 100,
     currentPage: 1,
+    isDisabled: []
 }
 
 export const usersReducer = (state: UsersStateType = initialState, action: ActionsType): UsersStateType => {
@@ -29,6 +30,12 @@ export const usersReducer = (state: UsersStateType = initialState, action: Actio
         case "SET-TOTAL-USERS-COUNT": {
             return {...state, totalCount: action.totalCount}
         }
+        case "IS-DISABLED": {
+            return {
+                ...state,
+                isDisabled: action.isFetching ? [...state.isDisabled, action.userId] : state.isDisabled.filter(id => id !== action.userId)
+            }
+        }
         default:
             return state
     }
@@ -50,6 +57,9 @@ export const setCurrentPageAC = (currentPage: number) => {
 export const setTotalUsersCountAC = (totalCount: number) => {
     return {type: 'SET-TOTAL-USERS-COUNT', totalCount} as const
 }
+export const isDisabledAC = ( userId: number, isFetching: boolean) => {
+    return {type: 'IS-DISABLED',  userId, isFetching} as const
+}
 
 
 //types
@@ -70,6 +80,7 @@ export type UsersStateType = {
     error: null
     pageSize: number
     currentPage: number
+    isDisabled: Array<number>
 }
 type ActionsType =
     | ReturnType<typeof followAC>
@@ -77,3 +88,4 @@ type ActionsType =
     | ReturnType<typeof setUsersAC>
     | ReturnType<typeof setCurrentPageAC>
     | ReturnType<typeof setTotalUsersCountAC>
+    | ReturnType<typeof isDisabledAC>
