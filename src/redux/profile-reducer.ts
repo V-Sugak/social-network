@@ -1,4 +1,7 @@
 import {PhotosType} from "./users-reducer";
+import {ThunkType} from "./redux-store";
+import {usersURL} from "../api/api";
+import {toggleIsFetchingAC} from "./app-reducer";
 
 let initialState: StateProfileType = {
     posts: [
@@ -9,7 +12,7 @@ let initialState: StateProfileType = {
     profile: null
 }
 
-export const profileReducer = (state: StateProfileType = initialState, action: ActionsType): StateProfileType => {
+export const profileReducer = (state: StateProfileType = initialState, action: ProfileActionsType): StateProfileType => {
     switch (action.type) {
         case "ADD-POST": {
             let newPost: PostType = {
@@ -53,6 +56,15 @@ export const updateNewPostTextAC = (text: string) => {
     } as const
 }
 
+//thunks
+export const setUserProfileInformationTC = (userId: string = '2'): ThunkType => (dispatch) => {
+    dispatch(toggleIsFetchingAC(true))
+    usersURL.setUserProfileInformation(userId).then(response => {
+        dispatch(toggleIsFetchingAC(false))
+        dispatch(setUserProfileAC(response.data))
+    })
+}
+
 //types
 export type PostType = {
     id: number
@@ -83,7 +95,7 @@ export type StateProfileType = {
     newPostText: string
     profile: UserProfileType | null
 }
-type ActionsType =
+export type ProfileActionsType =
     | ReturnType<typeof addPostAC>
     | ReturnType<typeof updateNewPostTextAC>
     | ReturnType<typeof setUserProfileAC>

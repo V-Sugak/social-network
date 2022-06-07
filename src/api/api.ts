@@ -14,7 +14,6 @@ const instance = axios.create(
 export const usersURL = {
     getUsers(currentPage: number, pageSize: number) {
         return instance.get<UsersSetResponseType>(`users?page=${currentPage}&count=${pageSize}`)
-            .then(response => response.data)
     },
     setUserProfileInformation(userId: string) {
         return instance.get<UserProfileType>(`profile/${userId}`)

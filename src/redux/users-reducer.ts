@@ -69,8 +69,8 @@ export const isDisabledAC = (userId: number, isFetching: boolean) => {
 export const getUsersTC = (currentPage: number, pageSize: number): ThunkType => (dispatch) => {
     dispatch(toggleIsFetchingAC(true))
     usersURL.getUsers(currentPage, pageSize).then(data => {
-        dispatch(setUsersAC(data.items))
-        dispatch(setTotalUsersCountAC(data.totalCount))
+        dispatch(setUsersAC(data.data.items))
+        dispatch(setTotalUsersCountAC(data.data.totalCount))
         dispatch(toggleIsFetchingAC(false))
     })
 }

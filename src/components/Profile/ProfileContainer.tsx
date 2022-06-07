@@ -1,24 +1,15 @@
 import React from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
-import {UserProfileType, setUserProfileAC} from "../../redux/profile-reducer";
+import {UserProfileType, setUserProfileInformationTC} from "../../redux/profile-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {usersURL} from "../../api/api";
-import {toggleIsFetchingAC} from "../../redux/app-reducer";
 import {Preloader} from "../common/Preloader/Preloader";
 
 class ProfileContainer extends React.Component<PropsType> {
     componentDidMount() {
         let userId = this.props.match.params.userId;
-        if (!userId) {
-            userId = '2';
-        }
-        this.props.toggleIsFetching(true)
-        usersURL.setUserProfileInformation(userId).then(response => {
-            this.props.toggleIsFetching(false)
-            this.props.setUsersProfile(response.data);
-        })
+        this.props.setUsersProfile(userId)
     }
 
     render() {
@@ -39,8 +30,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 const WithRouterDataComponent = withRouter(ProfileContainer);
 
 export default connect(mapStateToProps, {
-    setUsersProfile: setUserProfileAC,
-    toggleIsFetching: toggleIsFetchingAC,
+    setUsersProfile: setUserProfileInformationTC,
 })(WithRouterDataComponent);
 
 //types
@@ -49,8 +39,7 @@ type MapStatePropsType = {
     isFetching: boolean
 };
 type MapDispatchProps = {
-    setUsersProfile: (profile: any) => void
-    toggleIsFetching: (isFetching: boolean) => void
+    setUsersProfile: (userId: string) => void
 };
 type PathParamsType = {
     userId: string
