@@ -2,17 +2,11 @@ import React from "react";
 import {Header} from "./Header";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {setAuthUserDataAC} from "../../redux/auth-reducer";
-import {authURL} from "../../api/api";
+import {setAuthUserDataTC} from "../../redux/auth-reducer";
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType> {
     componentDidMount() {
-       authURL.me().then(response => {
-            if (response.data.resultCode === 0) {
-                let {id, login, email} = response.data.data;
-                this.props.setAuthUserData(id, login, email)
-            } // Обработать ошибку!!!! Этот запрос должен быть не здесь. В App?
-        })
+        this.props.setAuthUserData()
     };
 
     render() {
@@ -28,7 +22,7 @@ const mapStateToProps = (state: AppStateType): mapStatePropsType => {
     }
 };
 
-export default connect(mapStateToProps, {setAuthUserData: setAuthUserDataAC})(HeaderContainer);
+export default connect(mapStateToProps, {setAuthUserData: setAuthUserDataTC})(HeaderContainer);
 
 //types
 type mapStatePropsType = {
@@ -36,6 +30,6 @@ type mapStatePropsType = {
     login: string
 };
 type mapDispatchPropsType = {
-    setAuthUserData: (id: number, login: string, email: string) => void;
+    setAuthUserData: () => void;
 };
 type HeaderContainerPropsType = mapStatePropsType & mapDispatchPropsType;

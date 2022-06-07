@@ -34,6 +34,7 @@ beforeEach(() => {
         error: null,
         pageSize: 100,
         currentPage: 1,
+        isDisabled: []
     }
 })
 
