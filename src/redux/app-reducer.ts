@@ -2,7 +2,7 @@ const initialState: AppStateType = {
     isFetching: false,                    // isLoading - крутилка
 }
 
-export const appReducer = (state: AppStateType = initialState, action: ActionsType): AppStateType => {
+export const appReducer = (state: AppStateType = initialState, action: AppActionsType): AppStateType => {
     switch (action.type) {
         case 'TOGGLE IS FETCHING': {
             return {...state, isFetching: action.isFetching}
@@ -18,6 +18,6 @@ export const toggleIsFetchingAC = (isFetching: boolean) => {
 }
 
 //types
-type AppStateType = { isFetching: boolean }
-type ActionsType =
+export type AppStateType = { isFetching: boolean }
+export type AppActionsType =
     | ReturnType<typeof toggleIsFetchingAC>

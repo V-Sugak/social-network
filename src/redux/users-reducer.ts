@@ -1,3 +1,7 @@
+import {ThunkType} from "./redux-store";
+import {usersURL} from "../api/api";
+import {toggleIsFetchingAC} from "./app-reducer";
+
 const initialState: UsersStateType = {
     users: [],
     totalCount: 0,                        //количество всех пользователей(с сервера)
@@ -7,7 +11,7 @@ const initialState: UsersStateType = {
     isDisabled: []
 }
 
-export const usersReducer = (state: UsersStateType = initialState, action: ActionsType): UsersStateType => {
+export const usersReducer = (state: UsersStateType = initialState, action: UsersActionsType): UsersStateType => {
     switch (action.type) {
         case "FOLLOW": {
             return {
@@ -57,10 +61,37 @@ export const setCurrentPageAC = (currentPage: number) => {
 export const setTotalUsersCountAC = (totalCount: number) => {
     return {type: 'SET-TOTAL-USERS-COUNT', totalCount} as const
 }
-export const isDisabledAC = ( userId: number, isFetching: boolean) => {
-    return {type: 'IS-DISABLED',  userId, isFetching} as const
+export const isDisabledAC = (userId: number, isFetching: boolean) => {
+    return {type: 'IS-DISABLED', userId, isFetching} as const
 }
 
+//thunks
+export const getUsersTC = (currentPage: number, pageSize: number): ThunkType => (dispatch) => {
+    dispatch(toggleIsFetchingAC(true))
+    usersURL.getUsers(currentPage, pageSize).then(data => {
+        dispatch(setUsersAC(data.items))
+        dispatch(setTotalUsersCountAC(data.totalCount))
+        dispatch(toggleIsFetchingAC(false))
+    })
+}
+export const followTC = (userId: number): ThunkType => (dispatch) => {
+    dispatch(isDisabledAC(userId, true))
+    usersURL.follow(userId).then(response => {
+        if (response.data.resultCode === 0) {
+            dispatch(followAC(userId))
+        }
+        dispatch(isDisabledAC(userId, false))
+    })
+}
+export const unfollowTC = (userId: number): ThunkType => (dispatch) => {
+    dispatch(isDisabledAC(userId, true))
+    usersURL.unfollow(userId).then(response => {
+        if (response.data.resultCode === 0) {
+            dispatch(unfollowAC(userId))
+        }
+        dispatch(isDisabledAC(userId, false))
+    })
+}
 
 //types
 export type PhotosType = {
@@ -82,7 +113,7 @@ export type UsersStateType = {
     currentPage: number
     isDisabled: Array<number>
 }
-type ActionsType =
+export type UsersActionsType =
     | ReturnType<typeof followAC>
     | ReturnType<typeof unfollowAC>
     | ReturnType<typeof setUsersAC>

@@ -1,9 +1,9 @@
 import React, {MouseEvent} from "react";
 import s from "./users.module.css";
 import {UserType} from "../../redux/users-reducer";
-import {usersURL} from "../../api/api";
 import {NavLink} from "react-router-dom";
 import userPhoto from "../../assets/images/user.png";
+
 
 export const Users = (props: UsersPropsType) => {
     let pagesCount = Math.ceil(props.totalCount / props.pageSize);
@@ -25,26 +25,10 @@ export const Users = (props: UsersPropsType) => {
         {
             props.users.map(u => {
                 const onClickFollowHandler = () => {
-                    //    props.toggleIsFetching(true)
-                    props.isDisabledHandler(u.id, true)
-                    usersURL.follow(u.id).then(response => {
-                        if (response.data.resultCode === 0) {
-                            props.follow(u.id);
-                        }
-                        //         props.toggleIsFetching(false)
-                        props.isDisabledHandler(u.id, false)
-                    })
+                    props.follow(u.id)
                 }
                 const onClickUnfollowHandler = () => {
-                    //   props.toggleIsFetching(true)
-                    props.isDisabledHandler(u.id, true)
-                    usersURL.unfollow(u.id).then(response => {
-                        if (response.data.resultCode === 0) {
-                            props.unfollow(u.id);
-                        }
-                        //        props.toggleIsFetching(false)
-                        props.isDisabledHandler(u.id, false)
-                    })
+                    props.unfollow(u.id)
                 }
                 return <div key={u.id}>
                     <span>
@@ -87,5 +71,4 @@ type UsersPropsType = {
     onPageChanged: (currentPage: number) => void
     follow: (userId: number) => void
     unfollow: (userId: number) => void
-    isDisabledHandler: (userId: number, isFetching: boolean) => void
 }
