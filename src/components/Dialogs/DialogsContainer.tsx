@@ -7,16 +7,15 @@ import {
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {Redirect} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 class DialogsContainer extends React.Component<DialogsContainerPropsType> {
-    componentDidMount(){}
+    componentDidMount() {
+    }
 
     render() {
-        if (!this.props.isAuth) {
-            return <Redirect to={"/login"}/>
-        }
         return <Dialogs
+            {...this.props}
             state={this.props.state}
             addMessage={this.props.addMessage}
             updateNewMessageText={this.props.updateNewMessageText}
@@ -24,19 +23,17 @@ class DialogsContainer extends React.Component<DialogsContainerPropsType> {
     }
 }
 
+const WithRedirectDialogsContainer = withAuthRedirect(DialogsContainer)
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         state: state.dialogsPage,
-        isAuth: state.auth.isAuth
     }
 }
-
-export default connect(mapStateToProps, {addMessage, updateNewMessageText,})(DialogsContainer);
+export default connect(mapStateToProps, {addMessage, updateNewMessageText,})(WithRedirectDialogsContainer);
 
 //types
 type mapStateToPropsType = {
     state: initialStateDialogsType
-    isAuth:boolean
 }
 type mapDispatchToPropsType = {
     addMessage: () => void
