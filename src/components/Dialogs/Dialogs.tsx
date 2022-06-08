@@ -1,8 +1,8 @@
-import React, {ChangeEvent, KeyboardEvent} from 'react';
+import React, {ChangeEvent, KeyboardEvent} from "react";
 import s from "./Dialogs.module.css"
-import {DialogsItem} from './DialogsItem/DialogsItem';
+import {DialogsItem} from "./DialogsItem/DialogsItem";
 import {Message} from './Message/Message';
-import {DialogsPropsType} from "./DialogsContainer";
+import {initialStateDialogsType} from "../../redux/dialogs-reducer";
 
 export const Dialogs = (props: DialogsPropsType) => {
     let dialogElement = props.state.dialogsItem.map(d => <DialogsItem key={d.id} name={d.name} id={d.id}/>)
@@ -34,4 +34,11 @@ export const Dialogs = (props: DialogsPropsType) => {
             </div>
         </div>
     )
+}
+
+//types
+type DialogsPropsType = {
+    state: initialStateDialogsType
+    addMessage: () => void
+    updateNewMessageText: (text: string) => void
 }

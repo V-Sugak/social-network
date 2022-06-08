@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
     addMessage,
     initialStateDialogsType,
@@ -7,35 +7,39 @@ import {
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
+import {Redirect} from "react-router-dom";
 
+class DialogsContainer extends React.Component<DialogsContainerPropsType> {
+    componentDidMount(){}
 
-type mapStateToPropsType = {
-    state: initialStateDialogsType
-}
-
-type mapDispatchToPropsType = {
-    addMessage: () => void,
-    updateNewMessageText: (text: string) => void,
+    render() {
+        if (!this.props.isAuth) {
+            return <Redirect to={"/login"}/>
+        }
+        return <Dialogs
+            state={this.props.state}
+            addMessage={this.props.addMessage}
+            updateNewMessageText={this.props.updateNewMessageText}
+        />;
+    }
 }
 
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
-        state: state.dialogsPage
+        state: state.dialogsPage,
+        isAuth: state.auth.isAuth
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): mapDispatchToPropsType => {
-    return {
-        addMessage: () => {
-            dispatch(addMessage())
-        },
-        updateNewMessageText: (text: string) => {
-            dispatch(updateNewMessageText(text))
-        },
-    }
+export default connect(mapStateToProps, {addMessage, updateNewMessageText,})(DialogsContainer);
+
+//types
+type mapStateToPropsType = {
+    state: initialStateDialogsType
+    isAuth:boolean
 }
-
-export const DialogsContainer = connect(mapStateToProps, {addMessage, updateNewMessageText,})(Dialogs);
-
-export type DialogsPropsType = mapStateToPropsType & mapDispatchToPropsType
+type mapDispatchToPropsType = {
+    addMessage: () => void
+    updateNewMessageText: (text: string) => void
+}
+export type DialogsContainerPropsType = mapStateToPropsType & mapDispatchToPropsType
