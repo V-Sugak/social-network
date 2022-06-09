@@ -3,10 +3,7 @@ import s from "./ProfileInfo.module.css"
 import {UserProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
-
-type ProfileInfoPropsType = {
-    profile: UserProfileType | null
-}
+import {ProfileStatus} from "./ProfileStatus/ProfileStatus";
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
     if (!props.profile) {
@@ -24,7 +21,10 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                     <img src={props.profile.photos.large !== null ? props.profile.photos.large : userPhoto}/>
                 </div>
                 <div>
-                    <h2>{props.profile.fullName}</h2>
+                    <div className={s.statusBlock}>
+                        <span className={s.name}>{props.profile.fullName}</span>
+                        <ProfileStatus status={'Hello world'}/>
+                    </div>
                     <div>
                         <b>Aboute me: </b> {props.profile.aboutMe}
                     </div>
@@ -36,4 +36,9 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
             </div>
         </div>
     )
+}
+
+//types
+type ProfileInfoPropsType = {
+    profile: UserProfileType | null
 }
