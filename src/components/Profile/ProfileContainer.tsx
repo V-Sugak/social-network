@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ComponentType} from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {UserProfileType, setUserProfileInformationTC} from "../../redux/profile-reducer";
@@ -6,6 +6,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {Preloader} from "../common/Preloader/Preloader";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 class ProfileContainer extends React.Component<PropsType> {
     componentDidMount() {
@@ -18,9 +19,8 @@ class ProfileContainer extends React.Component<PropsType> {
             {this.props.isFetching ? <Preloader/> : <Profile profile={this.props.profile}/>}
         </div>
     }
-
 };
-const WithRedirectProfileContainer = withAuthRedirect<PropsType>(ProfileContainer)
+
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         profile: state.profilePage.profile,
@@ -28,11 +28,11 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 };
 
-const WithRouterDataComponent = withRouter(WithRedirectProfileContainer);
-
-export default connect(mapStateToProps, {
-    setUsersProfile: setUserProfileInformationTC,
-})(WithRouterDataComponent);
+export default compose<ComponentType>(
+    connect(mapStateToProps, {setUsersProfile: setUserProfileInformationTC}),
+    withRouter,
+    withAuthRedirect
+)(ProfileContainer);
 
 //types
 type MapStatePropsType = {
