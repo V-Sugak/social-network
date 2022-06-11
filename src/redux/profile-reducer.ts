@@ -1,6 +1,6 @@
 import {PhotosType} from "./users-reducer";
 import {ThunkType} from "./redux-store";
-import {usersURL} from "../api/api";
+import {profileURL} from "../api/api";
 import {toggleIsFetchingAC} from "./app-reducer";
 
 let initialState: StateProfileType = {
@@ -9,7 +9,8 @@ let initialState: StateProfileType = {
         {id: 2, message: "It's my first post", likesCount: 30}
     ],
     newPostText: '',
-    profile: null
+    profile: null,
+    status: '',
 }
 
 export const profileReducer = (state: StateProfileType = initialState, action: ProfileActionsType): StateProfileType => {
@@ -37,6 +38,9 @@ export const profileReducer = (state: StateProfileType = initialState, action: P
                 profile: action.profile
             }
         }
+        case "SET-USER-STATUS": {
+            return {...state, status: action.status}
+        }
         default:
             return state;
     }
@@ -55,13 +59,31 @@ export const updateNewPostTextAC = (text: string) => {
         newPostText: text
     } as const
 }
+export const setUserStatusAC = (status: string) => {
+    return {type: 'SET-USER-STATUS', status} as const
+}
+
 
 //thunks
-export const setUserProfileInformationTC = (userId: string = '2'): ThunkType => (dispatch) => {
+export const getUserProfileTC = (userId: string = "21217"): ThunkType => (dispatch) => {
     dispatch(toggleIsFetchingAC(true))
-    usersURL.setUserProfileInformation(userId).then(response => {
+    profileURL.getProfile(userId).then(response => {
         dispatch(toggleIsFetchingAC(false))
         dispatch(setUserProfileAC(response.data))
+    })
+}
+export const getUserStatusTC = (userId: string = "21217"): ThunkType => (dispatch) => {
+    dispatch(toggleIsFetchingAC(true))
+    profileURL.getStatus(userId).then(res => {
+        dispatch(setUserStatusAC(res.data))
+        dispatch(toggleIsFetchingAC(false))
+    })
+}
+export const updateUserStatusTC = (status: string): ThunkType => (dispatch) => {
+    profileURL.updateStatus(status).then(res => {
+        if (res.data.resultCode === 0) {
+            dispatch(setUserStatusAC(status))
+        }
     })
 }
 
@@ -94,8 +116,10 @@ export type StateProfileType = {
     posts: Array<PostType>
     newPostText: string
     profile: UserProfileType | null
+    status: string
 }
 export type ProfileActionsType =
     | ReturnType<typeof addPostAC>
     | ReturnType<typeof updateNewPostTextAC>
     | ReturnType<typeof setUserProfileAC>
+    | ReturnType<typeof setUserStatusAC>
