@@ -32,7 +32,7 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
 export default compose<ComponentType>(
     connect(mapStateToProps, {addMessage, updateNewMessageText,}),
     withAuthRedirect
-)(DialogsContainer);
+)(DialogsContainer)
 
 
 //types

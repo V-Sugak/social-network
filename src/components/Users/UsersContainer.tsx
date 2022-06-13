@@ -34,7 +34,7 @@ export class UsersContainer extends React.Component<UsersContainerPropsType> {
             />
         </>
     }
-}
+};
 
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
@@ -45,7 +45,7 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
         isFetching: state.app.isFetching,
         isDisabled: state.usersPage.isDisabled
     }
-}
+};
 
 export default compose<ComponentType>(connect(mapStateToProps, {
         follow: followTC,
@@ -53,7 +53,7 @@ export default compose<ComponentType>(connect(mapStateToProps, {
         setCurrentPage: setCurrentPageAC,
         getUsers: getUsersTC,
     }),
-    withAuthRedirect)(UsersContainer)
+    withAuthRedirect)(UsersContainer);
 
 //types
 type mapStateToPropsType = {

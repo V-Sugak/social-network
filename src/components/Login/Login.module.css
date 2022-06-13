@@ -1,0 +1,19 @@
+.loginContainer {
+    padding: 50px;
+}
+
+.loginHeader {
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form input {
+    width: 30%;
+    margin: 5px;
+}
+

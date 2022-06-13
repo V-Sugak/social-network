@@ -23,6 +23,7 @@ beforeEach(() => {
         ],
         newPostText: 'YES',
         profile: null,
+        status:''
     }
 })
 
