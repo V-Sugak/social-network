@@ -12,8 +12,30 @@
     align-items: center;
 }
 
-.form input {
-    width: 30%;
-    margin: 5px;
+.form div {
+    margin: 3px;
+}
+
+.form button {
+    margin-top: 5px;
+}
+
+.loginData{
+    height: 50px;
+}
+
+.loginData input {
+    width: 280px;
+    height: 25px;
+}
+
+.error{
+    font-size: 10px;
+    color: brown;
+}
+
+.loginButton{
+    width: 120px;
+    height: 25px;
 }
 
