@@ -25,29 +25,22 @@ export const LoginForm = () => {
         },
         onSubmit: values => {
             alert(JSON.stringify(values, null, 2));
+            formik.resetForm()
         },
     });
     return (
         <form onSubmit={formik.handleSubmit} className={s.form}>
             <div className={s.loginData}>
                 <input
-                    id="email"
-                    name="email"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
+                    {...formik.getFieldProps('email')}
                     placeholder={"Email"}
                 />
                 {formik.touched.email && formik.errors.email && <div className={s.error}>{formik.errors.email}</div>}
             </div>
             <div className={s.loginData}>
                 <input
-                    id="password"
-                    name="password"
                     type="password"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password}
+                    {...formik.getFieldProps('password')}
                     placeholder={"Password"}
                 />
                 {formik.touched.password && formik.errors.password &&
@@ -55,12 +48,9 @@ export const LoginForm = () => {
             </div>
             <div className={s.rememberMe}>
                 <input
-                    id="rememberMe"
-                    name="rememberMe"
                     type="checkbox"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                     checked={formik.values.rememberMe}
+                    {...formik.getFieldProps('rememberMe')}
                 />
                 <label>Remember me</label>
             </div>
