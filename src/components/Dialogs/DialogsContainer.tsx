@@ -40,7 +40,7 @@ type mapStateToPropsType = {
     state: initialStateDialogsType
 }
 type mapDispatchToPropsType = {
-    addMessage: () => void
+    addMessage: (value: string) => void
     updateNewMessageText: (text: string) => void
 }
 export type DialogsContainerPropsType = mapStateToPropsType & mapDispatchToPropsType

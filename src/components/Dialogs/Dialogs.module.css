@@ -14,6 +14,9 @@
     padding: 10px;
 }
 
+.newMessage {
+    display: flex;
+}
 
 
  
