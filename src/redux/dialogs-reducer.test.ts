@@ -1,5 +1,5 @@
 import {
-    addMessage,
+    addMessageAC,
     DialogItemType,
     dialogsReducer,
     MessageType,
@@ -31,7 +31,7 @@ beforeEach(() => {
 })
 
 test('should added new message', () => {
-    const endState = dialogsReducer(startState, addMessage());
+    const endState = dialogsReducer(startState, addMessageAC());
 
     expect(startState.messages.length).toBe(3);
     expect(endState.messages.length).toBe(4);

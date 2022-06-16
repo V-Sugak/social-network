@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent} from "react";
+import React from "react";
 import {useFormik} from "formik";
 
 export const PostForm = (props: PostFormPropsType) => {
@@ -20,9 +20,8 @@ export const PostForm = (props: PostFormPropsType) => {
               }
               return errors;*/
         },
-        onSubmit: values => {
-            props.onButtonClick(formik.values.value)
-          //  alert(JSON.stringify(values, null, 2));
+        onSubmit: () => {
+            props.onSubmit(formik.values.value)
             formik.resetForm()
         },
     });
@@ -36,12 +35,10 @@ export const PostForm = (props: PostFormPropsType) => {
             <button type="submit">{props.buttonName}</button>
         </div>
     </form>
-}  //обработчики будут в onSubmit !!!
+}
 
 //types
 type PostFormPropsType = {
-    value: string
     buttonName: string
-    // onChangeHandler: (e: ChangeEvent<HTMLTextAreaElement>) => void
-    onButtonClick: (value: string) => void
+    onSubmit: (value: string) => void
 }

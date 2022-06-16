@@ -1,31 +1,17 @@
-export type DialogItemType = {
-    id: string
-    name: string
-}
-
-export type MessageType = {
-    id: number
-    message: string
-}
-
-export type initialStateDialogsType = typeof initialState
-
-let initialState = {
+let initialState: StateDialogsType = {
     dialogsItem: [
         {id: "1", name: "Victoria"},
         {id: "2", name: "Diana"},
         {id: "3", name: "Irina"}
-    ] as Array<DialogItemType>,
+    ],
     messages: [
         {id: 1, message: "Hi"},
         {id: 2, message: "How are you?"},
         {id: 3, message: "Yo"}
-    ] as Array<MessageType>,
-    newMessageText: ''
+    ],
 }
 
-export const dialogsReducer = (state: initialStateDialogsType = initialState, action: ActionsType): initialStateDialogsType => {
-
+export const dialogsReducer = (state: StateDialogsType = initialState, action: DialogsActionsType): StateDialogsType => {
     switch (action.type) {
         case "ADD-MESSAGE": {
             let newMessage: MessageType = {
@@ -35,30 +21,31 @@ export const dialogsReducer = (state: initialStateDialogsType = initialState, ac
             return {
                 ...state,
                 messages: [...state.messages, newMessage],
-                newMessageText: ''
             };
         }
-      /*  case "UPDATE-NEW-MESSAGE-TEXT": {
-            return {
-                ...state,
-                newMessageText: action.newMessageText
-            };
-        }*/
         default:
             return state;
     }
 }
 
-type  ActionsType = ReturnType<typeof addMessage>
-    | ReturnType<typeof updateNewMessageText>
-
-export const addMessage = (value: string) => {
+//actions
+export const addMessageAC = (value: string) => {
     return {type: "ADD-MESSAGE", value} as const
 }
 
-export const updateNewMessageText = (text: string) => {
-    return {
-        type: "UPDATE-NEW-MESSAGE-TEXT",
-        newMessageText: text
-    } as const
+//types
+export type DialogItemType = {
+    id: string
+    name: string
 }
+export type MessageType = {
+    id: number
+    message: string
+}
+export type StateDialogsType = {
+    dialogsItem: Array<DialogItemType>
+    messages: Array<MessageType>
+}
+export type  DialogsActionsType =
+    | ReturnType<typeof addMessageAC>
+
