@@ -1,5 +1,6 @@
 import React from "react";
 import {useFormik} from "formik";
+import s from "../../Login/Login.module.css";  // надо сделать свой css
 
 export const PostForm = (props: PostFormPropsType) => {
     const formik = useFormik({
@@ -7,18 +8,11 @@ export const PostForm = (props: PostFormPropsType) => {
             value: '',
         },
         validate: (values) => {
-            /*  const errors: FormikErrorType = {};
-              if (!values.email) {
-                  errors.email = 'Required';
-              } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                  errors.email = 'Invalid email address';
-              }
-              if (!values.password) {
-                  errors.password = 'Required';
-              } else if (values.password.length < 4) {
-                  errors.password = 'Must be 4 characters or more';
-              }
-              return errors;*/
+            const errors: FormikErrorType = {};
+            if (values.value && values.value.length > 10) {
+                errors.value = 'Max length is 10 symbols';
+            }
+            return errors;
         },
         onSubmit: () => {
             props.onSubmit(formik.values.value)
@@ -33,6 +27,7 @@ export const PostForm = (props: PostFormPropsType) => {
         </div>
         <div>
             <button type="submit">{props.buttonName}</button>
+            {formik.touched.value && formik.errors.value && <div className={s.error}>{formik.errors.value}</div>}
         </div>
     </form>
 }
@@ -41,4 +36,7 @@ export const PostForm = (props: PostFormPropsType) => {
 type PostFormPropsType = {
     buttonName: string
     onSubmit: (value: string) => void
+}
+type FormikErrorType = {
+    value?: string
 }
