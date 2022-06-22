@@ -1,8 +1,9 @@
 import {useFormik} from "formik";
 import s from "./Login.module.css";
 import React from "react";
+import {ThunkType} from "../../redux/redux-store";
 
-export const LoginForm = () => {
+export const LoginForm = (props: LoginFormPropsType) => {
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -24,7 +25,7 @@ export const LoginForm = () => {
             return errors;
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            props.onSubmit(formik.values.email, formik.values.password, formik.values.rememberMe)
             formik.resetForm()
         },
     });
@@ -63,4 +64,7 @@ export const LoginForm = () => {
 type FormikErrorType = {
     email?: string
     password?: string
+}
+type LoginFormPropsType = {
+    onSubmit: (email: string, password: string, rememberMe: boolean) => ThunkType
 }

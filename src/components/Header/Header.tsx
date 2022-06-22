@@ -1,6 +1,7 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import s from "./Header.module.css";
+import {ThunkType} from "../../redux/redux-store";
 
 export const Header = (props: HeaderPropsType) => {
     return (
@@ -8,15 +9,21 @@ export const Header = (props: HeaderPropsType) => {
             <div className={s.logo}>
                 By Viktoria...
                 <span className={s.loginBlock}>
-                    {props.isAuth ? props.login : <NavLink to={'/login'}>LOGIN</NavLink>}
+                    {props.isAuth ?
+                        <div>
+                            {props.login}
+                            <button onClick={props.logout}>Log out</button>
+                        </div>
+                        : <NavLink to={'/login'}>LOGIN</NavLink>}
                            </span>
             </div>
         </header>
     )
-}  //сделать LOGOUT и сраницу LOGIN!!!
+}
 
 //types
 type HeaderPropsType = {
     isAuth: boolean
     login: string
+    logout: () => ThunkType
 }

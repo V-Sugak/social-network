@@ -13,8 +13,7 @@ export const authReducer = (state: AuthStateType = initialState, action: AuthAct
         case "SET-USER-DATA": {
             return {
                 ...state,
-                ...action.data,
-                isAuth: true
+                ...action.payload
             }
         }
         default:
@@ -23,10 +22,10 @@ export const authReducer = (state: AuthStateType = initialState, action: AuthAct
 };
 
 //actions
-export const setAuthUserDataAC = (id: number, login: string, email: string) => {
+export const setAuthUserDataAC = (id: number | null, login: string, email: string, isAuth: boolean) => {
     return {
         type: "SET-USER-DATA",
-        data: {id, login, email}
+        payload: {id, login, email, isAuth}
     } as const
 };
 
@@ -35,9 +34,26 @@ export const setAuthUserDataTC = (): ThunkType => (dispatch) => {
     authURL.me().then(response => {
         if (response.data.resultCode === 0) {
             let {id, login, email} = response.data.data;
-            dispatch(setAuthUserDataAC(id, login, email))
+            dispatch(setAuthUserDataAC(id, login, email, true))
         }
     })
+}
+export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => (dispatch) => {
+    authURL.login({email, password, rememberMe}).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(setAuthUserDataTC())
+            }
+        }
+    )
+}
+export const logoutTC = (): ThunkType => (dispatch) => {
+    authURL.logout()
+        .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(setAuthUserDataAC(null, '', '', false))
+                }
+            }
+        )
 }
 
 //types

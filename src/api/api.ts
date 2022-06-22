@@ -36,7 +36,13 @@ export const profileURL = {
 export const authURL = {
     me() {
         return instance.get<ResponseType<AuthenticatedUserData>>("auth/me")
-    }
+    },
+    login(loginModel: LoginRequestType) {
+        return instance.post<LoginRequestType, AxiosResponse<ResponseType<{ userId: number }>>>("auth/login", loginModel)
+    },
+    logout() {
+        return instance.delete<ResponseType>("auth/login")
+    },
 }
 
 //types
@@ -54,4 +60,9 @@ type ResponseType<T = {}> = {
     resultCode: number
     messages: Array<string>,
     data: T
+}
+type LoginRequestType = {
+    email: string
+    password: string
+    rememberMe: boolean
 }
