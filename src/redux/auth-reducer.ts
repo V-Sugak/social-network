@@ -1,5 +1,6 @@
 import {ThunkType} from "./redux-store";
 import {authURL} from "../api/api";
+import {setNetworkErrorAC} from "./app-reducer";
 
 const initialState: AuthStateType = {
     id: null,
@@ -42,6 +43,12 @@ export const loginTC = (email: string, password: string, rememberMe: boolean): T
     authURL.login({email, password, rememberMe}).then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(setAuthUserDataTC())
+            } else {
+                if (response.data.messages.length) {
+                    dispatch(setNetworkErrorAC(response.data.messages[0]))
+                } else {
+                    dispatch(setNetworkErrorAC("Some error occurred"))
+                }
             }
         }
     )

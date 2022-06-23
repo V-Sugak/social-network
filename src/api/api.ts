@@ -23,10 +23,10 @@ export const usersURL = {
     },
 }
 export const profileURL = {
-    getProfile(userId: string) {
+    getProfile(userId: number) {
         return instance.get<UserProfileType>(`profile/${userId}`)
     },
-    getStatus(userId: string) {
+    getStatus(userId: number) {
         return instance.get<string>(`profile/status/${userId}`)
     },
     updateStatus(status: string) {

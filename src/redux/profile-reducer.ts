@@ -55,14 +55,14 @@ export const setUserStatusAC = (status: string) => {
 
 
 //thunks
-export const getUserProfileTC = (userId: string = "21217"): ThunkType => (dispatch) => {
+export const getUserProfileTC = (userId: number): ThunkType => (dispatch) => {
     dispatch(toggleIsFetchingAC(true))
     profileURL.getProfile(userId).then(response => {
         dispatch(toggleIsFetchingAC(false))
         dispatch(setUserProfileAC(response.data))
     })
 }
-export const getUserStatusTC = (userId: string = "21217"): ThunkType => (dispatch) => {
+export const getUserStatusTC = (userId: number): ThunkType => (dispatch) => {
     dispatch(toggleIsFetchingAC(true))
     profileURL.getStatus(userId).then(res => {
         dispatch(setUserStatusAC(res.data))

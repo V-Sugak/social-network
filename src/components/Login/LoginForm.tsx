@@ -8,7 +8,7 @@ export const LoginForm = (props: LoginFormPropsType) => {
         initialValues: {
             email: '',
             password: '',
-            rememberMe: false
+            rememberMe: false,
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
@@ -29,6 +29,7 @@ export const LoginForm = (props: LoginFormPropsType) => {
             formik.resetForm()
         },
     });
+
     return (
         <form onSubmit={formik.handleSubmit} className={s.form}>
             <div className={s.loginData}>
@@ -55,6 +56,9 @@ export const LoginForm = (props: LoginFormPropsType) => {
                 />
                 <label>Remember me</label>
             </div>
+            <div>
+                {props.networkError}
+            </div>
             <button type="submit" className={s.loginButton}>Login</button>
         </form>
     )
@@ -67,4 +71,5 @@ type FormikErrorType = {
 }
 type LoginFormPropsType = {
     onSubmit: (email: string, password: string, rememberMe: boolean) => ThunkType
+    networkError: string
 }
