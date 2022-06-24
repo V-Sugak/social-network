@@ -32,26 +32,29 @@ export const setAuthUserDataAC = (id: number | null, login: string, email: strin
 
 //thunks
 export const setAuthUserDataTC = (): ThunkType => (dispatch) => {
-    authURL.me().then(response => {
-        if (response.data.resultCode === 0) {
-            let {id, login, email} = response.data.data;
-            dispatch(setAuthUserDataAC(id, login, email, true))
-        }
-    })
-}
-export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => (dispatch) => {
-    authURL.login({email, password, rememberMe}).then(response => {
+    return authURL.me()
+        .then(response => {
             if (response.data.resultCode === 0) {
-                dispatch(setAuthUserDataTC())
-            } else {
-                if (response.data.messages.length) {
-                    dispatch(setNetworkErrorAC(response.data.messages[0]))
+                let {id, login, email} = response.data.data;
+                dispatch(setAuthUserDataAC(id, login, email, true))
+            }
+        })
+}
+export type SomeReturnType = ReturnType<typeof setAuthUserDataTC>
+export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => (dispatch) => {
+    authURL.login({email, password, rememberMe})
+        .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(setAuthUserDataTC())
                 } else {
-                    dispatch(setNetworkErrorAC("Some error occurred"))
+                    if (response.data.messages.length) {
+                        dispatch(setNetworkErrorAC(response.data.messages[0]))
+                    } else {
+                        dispatch(setNetworkErrorAC("Some error occurred"))
+                    }
                 }
             }
-        }
-    )
+        )
 }
 export const logoutTC = (): ThunkType => (dispatch) => {
     authURL.logout()
@@ -70,4 +73,5 @@ export  type AuthStateType = {
     email: string
     isAuth: boolean
 };
-export type AuthActionsType = ReturnType<typeof setAuthUserDataAC>;
+export type setAuthUserDataACType = ReturnType<typeof setAuthUserDataAC>
+export type AuthActionsType = setAuthUserDataACType

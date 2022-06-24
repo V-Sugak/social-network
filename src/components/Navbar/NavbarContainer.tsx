@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Navbar} from "./Navbar";
 import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
+import {RootStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
 import {initialStateSadBarType} from "../../redux/sidebar-reducer";
 
@@ -26,7 +26,7 @@ type mapStateToPropsType = {
 
 type mapDispatchToPropsType = {}
 
-const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
+const mapStateToProps = (state: RootStateType): mapStateToPropsType => {
     return {
         sidebar: state.sidebar
     }

@@ -2,7 +2,7 @@ import React, {ComponentType} from "react";
 import {addMessageAC, StateDialogsType} from "../../redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
+import {RootStateType} from "../../redux/redux-store";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
@@ -16,7 +16,7 @@ class DialogsContainer extends React.Component<DialogsContainerPropsType> {
     }
 }
 
-const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
+const mapStateToProps = (state: RootStateType): mapStateToPropsType => {
     return {
         state: state.dialogsPage,
     }

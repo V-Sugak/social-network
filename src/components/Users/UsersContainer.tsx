@@ -1,6 +1,6 @@
 import React, {ComponentType} from "react";
 import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
+import {RootStateType} from "../../redux/redux-store";
 import {
     UserType, setCurrentPageAC, getUsersTC, followTC, unfollowTC
 } from "../../redux/users-reducer";
@@ -36,7 +36,7 @@ export class UsersContainer extends React.Component<UsersContainerPropsType> {
     }
 };
 
-const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
+const mapStateToProps = (state: RootStateType): mapStateToPropsType => {
     return {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,

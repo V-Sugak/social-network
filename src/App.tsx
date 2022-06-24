@@ -1,5 +1,5 @@
-import React from "react";
-import {Route} from "react-router-dom";
+import React, {ComponentType} from "react";
+import {Route, withRouter} from "react-router-dom";
 import "./App.css";
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
@@ -10,24 +10,40 @@ import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {setAuthUserDataTC} from "./redux/auth-reducer";
 
-const App = () => {
+class App extends React.Component<AppPropsType> {
+    componentDidMount() {
+        this.props.setAuthUserData()
+    }
 
-    return (
-        <div className="app-wrapper">
-            <HeaderContainer/>
-            <NavbarContainer/>
-            <div className="app-wrapper-content">
-                <Route path={"/profile/:userId?"} render={() => <ProfileContainer/>}/>
-                <Route path={"/dialogs"} render={() => <Dialogs/>}/>
-                <Route path={"/music"} render={() => <Music/>}/>
-                <Route path={"/news"} render={() => <News/>}/>
-                <Route path={"/settings"} render={() => <Settings/>}/>
-                <Route path={"/users"} render={() => <UsersContainer/>}/>
-                <Route path={"/login"} render={() => <Login/>}/>
+    render() {
+        return (
+            <div className="app-wrapper">
+                <HeaderContainer/>
+                <NavbarContainer/>
+                <div className="app-wrapper-content">
+                    <Route path={"/profile/:userId?"} render={() => <ProfileContainer/>}/>
+                    <Route path={"/dialogs"} render={() => <Dialogs/>}/>
+                    <Route path={"/music"} render={() => <Music/>}/>
+                    <Route path={"/news"} render={() => <News/>}/>
+                    <Route path={"/settings"} render={() => <Settings/>}/>
+                    <Route path={"/users"} render={() => <UsersContainer/>}/>
+                    <Route path={"/login"} render={() => <Login/>}/>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 } //- в URL profile даем название URI параметру
-export default App;
 
+export default compose<ComponentType>(withRouter, connect(null, {
+    setAuthUserData: setAuthUserDataTC,
+}))(App)
+//чтобы Routes нормально работали, надо обернуть компонент в withRouter
+
+//types
+type AppPropsType = {
+    setAuthUserData: () => void
+}

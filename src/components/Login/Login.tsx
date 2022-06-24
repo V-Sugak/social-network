@@ -1,7 +1,7 @@
 import React, {ComponentType} from "react";
 import s from "./Login.module.css";
 import {LoginForm} from "./LoginForm";
-import {AppStateType, ThunkType} from "../../redux/redux-store";
+import {RootStateType, ThunkType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import {loginTC} from "../../redux/auth-reducer";
 import {compose} from "redux";
@@ -21,7 +21,7 @@ const Login = (props: LoginPropsType) => {
     </div>
 }
 
-const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
+const mapStateToProps = (state: RootStateType): mapStateToPropsType => {
     return {
         isAuth: state.auth.isAuth,
         networkError: state.app.networkError,
