@@ -28,8 +28,5 @@ export type AppRootActionsType =
     | DialogsActionsType
 export type ThunkType<ReturnType = void> = ThunkAction<ReturnType, RootStateType, unknown, AppRootActionsType>
 
-/*export type RootState = ReturnType<typeof store.getState>*/
-export type RootDispatch = ThunkDispatch<RootStateType, unknown, AppRootActionsType>
-
 // @ts-ignore
 window.store = store

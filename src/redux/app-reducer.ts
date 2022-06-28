@@ -1,6 +1,5 @@
-import {AppRootActionsType, RootDispatch, ThunkType} from "./redux-store";
-import {setAuthUserDataACType, setAuthUserDataTC, SomeReturnType} from "./auth-reducer";
-import {ThunkDispatch} from "redux-thunk/src/types";
+import {ThunkType} from "./redux-store";
+import {setAuthUserDataTC} from "./auth-reducer";
 
 const initialState: AppStateType = {
     isFetching: false,                    // isLoading - крутилка
@@ -36,9 +35,9 @@ export const setInitializedSuccessAC = () => {
 }
 
 //thunks
-export const initializedAppTC = () => (dispatch:RootDispatch) => {
-  const promise =  dispatch(setAuthUserDataTC())
-    promise.then(() => {
+export const initializedAppTC = (): ThunkType => (dispatch) => {
+    const promise = dispatch(setAuthUserDataTC())
+    Promise.all([promise]).then(() => {
         dispatch(setInitializedSuccessAC())
     })
 }

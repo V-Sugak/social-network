@@ -10,13 +10,17 @@ import {compose} from "redux";
 class ProfileContainer extends React.Component<PropsType> {
     componentDidMount() {
         let userId = Number(this.props.match.params.userId)
-        if (this.props.authorizedUserId) {
-            if (!userId) {
-                userId = this.props.authorizedUserId
+        if (!userId) {
+            if (this.props.authorizedUserId) {
+                if (!userId) {
+                    userId = this.props.authorizedUserId
+                }
+            } else {
+                this.props.history.push('/login')
             }
-            this.props.getUsersProfile(userId)
-            this.props.getUserStatus(userId)
         }
+        this.props.getUsersProfile(userId)
+        this.props.getUserStatus(userId)
     }
 
     render() {

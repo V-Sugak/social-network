@@ -48,12 +48,11 @@ const mapStateToProps = (state: RootStateType): mapStateToPropsType => {
 };
 
 export default compose<ComponentType>(connect(mapStateToProps, {
-        follow: followTC,
-        unfollow: unfollowTC,
-        setCurrentPage: setCurrentPageAC,
-        getUsers: getUsersTC,
-    }),
-    withAuthRedirect)(UsersContainer);
+    follow: followTC,
+    unfollow: unfollowTC,
+    setCurrentPage: setCurrentPageAC,
+    getUsers: getUsersTC,
+}))(UsersContainer);
 
 //types
 type mapStateToPropsType = {

@@ -11,15 +11,20 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import {compose} from "redux";
-import {connect} from "react-redux";
-import {setAuthUserDataTC} from "./redux/auth-reducer";
+import {connect} from "react-redux"
+import {initializedAppTC} from "./redux/app-reducer";
+import {RootStateType} from "./redux/redux-store";
+import {Preloader} from "./components/common/Preloader/Preloader";
 
 class App extends React.Component<AppPropsType> {
     componentDidMount() {
-        this.props.setAuthUserData()
+        this.props.initializedApp()
     }
 
     render() {
+        if (!this.props.initialized) {
+            return <Preloader/>
+        }
         return (
             <div className="app-wrapper">
                 <HeaderContainer/>
@@ -38,12 +43,21 @@ class App extends React.Component<AppPropsType> {
     }
 } //- в URL profile даем название URI параметру
 
-export default compose<ComponentType>(withRouter, connect(null, {
-    setAuthUserData: setAuthUserDataTC,
+const mapStateToProps = (state: RootStateType): mapStatePropsType => {
+    return {
+        initialized: state.app.initializedSuccess,
+    }
+}
+export default compose<ComponentType>(withRouter, connect(mapStateToProps, {
+    initializedApp: initializedAppTC,
 }))(App)
 //чтобы Routes нормально работали, надо обернуть компонент в withRouter
 
 //types
-type AppPropsType = {
-    setAuthUserData: () => void
+type mapDispatchPropsType = {
+    initializedApp: () => void
 }
+type mapStatePropsType = {
+    initialized: boolean
+}
+type  AppPropsType = mapDispatchPropsType & mapStatePropsType
