@@ -20,13 +20,13 @@ export let store = createStore(rootReducer, applyMiddleware(thunk))
 
 //types
 export type RootStateType = ReturnType<typeof rootReducer>
-export type AppRootActionsType =
+export type RootActionsType =
     | UsersActionsType
     | AppActionsType
     | AuthActionsType
     | ProfileActionsType
     | DialogsActionsType
-export type ThunkType<ReturnType = void> = ThunkAction<ReturnType, RootStateType, unknown, AppRootActionsType>
+export type ThunkType<ReturnType = void> = ThunkAction<ReturnType, RootStateType, unknown, RootActionsType>
 
 // @ts-ignore
 window.store = store

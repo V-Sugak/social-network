@@ -7,7 +7,7 @@ import {
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
 import {compose} from "redux";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {getCurrentPage, getIsDisabled, getPageSize, getTotalCount, getUsers} from "../../redux/users-selectors";
 
 export class UsersContainer extends React.Component<UsersContainerPropsType> {
     componentDidMount() {
@@ -38,12 +38,12 @@ export class UsersContainer extends React.Component<UsersContainerPropsType> {
 
 const mapStateToProps = (state: RootStateType): mapStateToPropsType => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalCount: state.usersPage.totalCount,
-        currentPage: state.usersPage.currentPage,
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalCount: getTotalCount(state),
+        currentPage: getCurrentPage(state),
         isFetching: state.app.isFetching,
-        isDisabled: state.usersPage.isDisabled
+        isDisabled: getIsDisabled(state),
     }
 };
 
@@ -67,7 +67,7 @@ type mapDispatchToPropsType = {
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     setCurrentPage: (currentPage: number) => void
-    getUsers: (currentPage: number, pageSize: number) => void
+    getUsers: (page: number, pageSize: number) => void
 }
 export type UsersContainerPropsType = mapStateToPropsType & mapDispatchToPropsType;
 
