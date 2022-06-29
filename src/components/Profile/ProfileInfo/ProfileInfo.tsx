@@ -4,6 +4,7 @@ import {UserProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
 import {ProfileStatus} from "./ProfileStatus/ProfileStatus";
+import {ProfileStatusWithHooks} from "./ProfileStatus/ProfileStatusWithHooks";
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
     if (!props.profile) {
@@ -19,10 +20,10 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                 <div>
                     <div className={s.statusBlock}>
                         <span className={s.name}>{props.profile.fullName}</span>
-                        <ProfileStatus updateUserStatus={props.updateUserStatus} status={props.status}/>
+                        <ProfileStatusWithHooks updateUserStatus={props.updateUserStatus} status={props.status}/>
                     </div>
                     <div>
-                        <b>Aboute me: </b> {props.profile.aboutMe}
+                        <b>About me: </b> {props.profile.aboutMe}
                     </div>
                     <div>
                         <b>Looking for a job: </b>
