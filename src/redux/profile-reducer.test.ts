@@ -3,48 +3,32 @@ import {
     StateProfileType,
     profileReducer,
     setUserProfileAC,
-    updateNewPostTextAC,
-    UserProfileType
+    UserProfileType, setUserStatusAC
 } from "./profile-reducer";
 
-export type PostType = {
-    id: number
-    message: string
-    likesCount: number
-}
-
 let startState: StateProfileType;
-
 beforeEach(() => {
     startState = {
         posts: [
             {id: 1, message: "Hi, how are you", likesCount: 15},
             {id: 2, message: "It's my first post", likesCount: 30}
         ],
-        newPostText: 'YES',
         profile: null,
-        status:''
+        status: "",
     }
 })
 
-test('should added new post', () => {
-    let endState = profileReducer(startState, addPostAC());
+test("new post should be added", () => {
+    let endState = profileReducer(startState, addPostAC("Hello"));
 
     expect(startState.posts.length).toBe(2);
     expect(endState.posts.length).toBe(3);
-    expect(endState.posts[2].message).toBe('YES');
+    expect(endState.posts[2].message).toBe('Hello');
     expect(endState.posts[2].likesCount).toBe(0);
     expect(endState.posts[2].id).toBeDefined();
 })
 
-test('should updated new post text', () => {
-    let endState = profileReducer(startState, updateNewPostTextAC('It updated'));
-
-    expect(startState.newPostText).toBe('YES');
-    expect(endState.newPostText).toBe('It updated');
-})
-
-test('should set profile of user', () => {
+test("should set profile of user", () => {
     const profileUser: UserProfileType = {
         "aboutMe": "я круто чувак 1001%",
         "contacts": {
@@ -70,6 +54,13 @@ test('should set profile of user', () => {
 
     expect(startState.profile).toBe(null);
     expect(endState.profile).toEqual(profileUser);
+})
+
+test("should set status of user", () => {
+    let endState = profileReducer(startState, setUserStatusAC("Hello"));
+
+    expect(startState.status).toBe("");
+    expect(endState.status).toEqual("Hello");
 })
 
 

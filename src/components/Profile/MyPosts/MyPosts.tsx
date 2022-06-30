@@ -5,7 +5,8 @@ import {MyPostsPropsType} from "./MyPostsContainer";
 import {PostForm} from "../../common/Forms/PostForm";
 
 
-export const MyPosts = (props: MyPostsPropsType) => {
+export const MyPosts = React.memo((props: MyPostsPropsType) => {
+    console.log('MyPosts')
     let postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likeCount={p.likesCount}/>)
 
     return (
@@ -19,4 +20,4 @@ export const MyPosts = (props: MyPostsPropsType) => {
             </div>
         </div>
     )
-}
+})

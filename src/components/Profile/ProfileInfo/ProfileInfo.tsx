@@ -3,7 +3,6 @@ import s from "./ProfileInfo.module.css"
 import {UserProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
-import {ProfileStatus} from "./ProfileStatus/ProfileStatus";
 import {ProfileStatusWithHooks} from "./ProfileStatus/ProfileStatusWithHooks";
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {

@@ -9,7 +9,7 @@ let initialState: StateProfileType = {
         {id: 2, message: "It's my first post", likesCount: 30}
     ],
     profile: null,
-    status: '',
+    status: "",
 }
 
 export const profileReducer = (state: StateProfileType = initialState, action: ProfileActionsType): StateProfileType => {
