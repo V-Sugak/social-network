@@ -34,7 +34,7 @@ export const usersReducer = (state: UsersStateType = initialState, action: Users
         case "SET-TOTAL-USERS-COUNT": {
             return {...state, totalCount: action.totalCount}
         }
-        case "IS-DISABLED": {
+        case "IS-DISABLED-FOLLOWING-PROGRESS": {
             return {
                 ...state,
                 isDisabled: action.isFetching ? [...state.isDisabled, action.userId] : state.isDisabled.filter(id => id !== action.userId)
@@ -62,7 +62,7 @@ export const setTotalUsersCountAC = (totalCount: number) => {
     return {type: 'SET-TOTAL-USERS-COUNT', totalCount} as const
 }
 export const isDisabledAC = (userId: number, isFetching: boolean) => {
-    return {type: 'IS-DISABLED', userId, isFetching} as const
+    return {type: 'IS-DISABLED-FOLLOWING-PROGRESS', userId, isFetching} as const
 }
 
 //thunks

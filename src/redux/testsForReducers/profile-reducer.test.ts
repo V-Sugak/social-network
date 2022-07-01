@@ -4,7 +4,7 @@ import {
     profileReducer,
     setUserProfileAC,
     UserProfileType, setUserStatusAC
-} from "./profile-reducer";
+} from "../profile-reducer";
 
 let startState: StateProfileType;
 beforeEach(() => {

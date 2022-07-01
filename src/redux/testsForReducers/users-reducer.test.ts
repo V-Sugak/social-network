@@ -2,8 +2,8 @@ import {
     followAC, UsersStateType, setTotalUsersCountAC,
     setUsersAC,
     unfollowAC,
-    usersReducer, UserType
-} from "./users-reducer";
+    usersReducer, UserType, isDisabledAC
+} from "../users-reducer";
 
 let startState: UsersStateType;
 
@@ -38,21 +38,21 @@ beforeEach(() => {
     }
 })
 
-test('should be a change: follow to unfollow', () => {
+test("should be a change: follow to unfollow", () => {
     const endState = usersReducer(startState, followAC(21625));
 
     expect(startState.users[0].followed).toBeFalsy();
     expect(endState.users[0].followed).toBeTruthy();
 })
 
-test('should be a change: unfollow to follow', () => {
+test("should be a change: unfollow to follow", () => {
     const endState = usersReducer(startState, unfollowAC(21624));
 
     expect(startState.users[1].followed).toBeTruthy();
     expect(endState.users[1].followed).toBeFalsy();
 })
 
-test('user should be set', () => {
+test("user should be set", () => {
     startState.users = [];
     const initialItemState: Array<UserType> = [{
         "name": "stivv",
@@ -83,7 +83,7 @@ test('user should be set', () => {
     expect(endState.users[1].id).toBe(21618);
 })
 
-test('currentPage should be set', () => {
+test("currentPage should be set", () => {
     const endState = usersReducer(startState, setTotalUsersCountAC(5));
 
     expect(startState.currentPage).toBe(1);
@@ -97,15 +97,13 @@ test('totalUserCount should be set', () => {
     expect(endState.totalCount).toBe(5);
 })
 
-test('isDisabled should be set', () => {
-  
+test("Array of isDisabled should be length > 0, then === 0", () => {
+    const userId = 25
+    //Array of isDisabled should be length > 0
+    const endState = usersReducer(startState, isDisabledAC(userId, true))
+    expect(startState.isDisabled.length).toBe(0)
+    expect(endState.isDisabled.length).toBe(1)
+    //Array of isDisabled should be length === 0
+    const endState1 = usersReducer(endState, isDisabledAC(userId, false))
+    expect(endState1.isDisabled.length).toBe(0)
 })
-/*
-
-test('should toggle is fetching', () => {
-    const endState = usersReducer(startState, toggleIsFetchingAC(true));
-
-    expect(startState.isFetching).toBeFalsy();
-    expect(endState.isFetching).toBeTruthy();
-})
-*/

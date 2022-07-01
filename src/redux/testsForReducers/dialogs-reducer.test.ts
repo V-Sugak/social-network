@@ -1,7 +1,7 @@
 import {
     addMessageAC,
     dialogsReducer, StateDialogsType,
-} from "./dialogs-reducer";
+} from "../dialogs-reducer";
 
 let startState: StateDialogsType;
 
