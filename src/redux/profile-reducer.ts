@@ -14,7 +14,7 @@ let initialState: StateProfileType = {
 
 export const profileReducer = (state: StateProfileType = initialState, action: ProfileActionsType): StateProfileType => {
     switch (action.type) {
-        case "ADD-POST": {
+        case "PROFILE/ADD-POST": {
             let newPost: PostType = {
                 id: 5,
                 message: action.value,
@@ -28,13 +28,13 @@ export const profileReducer = (state: StateProfileType = initialState, action: P
             }
             return state;
         }
-        case "SET-USER-PROFILE": {
+        case "PROFILE/SET-USER-PROFILE": {
             return {
                 ...state,
                 profile: action.profile
             }
         }
-        case "SET-USER-STATUS": {
+        case "PROFILE/SET-USER-STATUS": {
             return {...state, status: action.status}
         }
         default:
@@ -44,37 +44,34 @@ export const profileReducer = (state: StateProfileType = initialState, action: P
 
 //actions
 export const addPostAC = (value: string) => {
-    return {type: "ADD-POST", value} as const
+    return {type: "PROFILE/ADD-POST", value} as const
 }
 export const setUserProfileAC = (profile: UserProfileType) => {
-    return {type: "SET-USER-PROFILE", profile} as const
+    return {type: "PROFILE/SET-USER-PROFILE", profile} as const
 }
 export const setUserStatusAC = (status: string) => {
-    return {type: 'SET-USER-STATUS', status} as const
+    return {type: "PROFILE/SET-USER-STATUS", status} as const
 }
 
 
 //thunks
-export const getUserProfileTC = (userId: number): ThunkType => (dispatch) => {
+export const getUserProfileTC = (userId: number): ThunkType => async (dispatch) => {
     dispatch(toggleIsFetchingAC(true))
-    profileURL.getProfile(userId).then(response => {
-        dispatch(toggleIsFetchingAC(false))
-        dispatch(setUserProfileAC(response.data))
-    })
+    let response = await profileURL.getProfile(userId)
+    dispatch(toggleIsFetchingAC(false))
+    dispatch(setUserProfileAC(response.data))
 }
-export const getUserStatusTC = (userId: number): ThunkType => (dispatch) => {
+export const getUserStatusTC = (userId: number): ThunkType => async (dispatch) => {
     dispatch(toggleIsFetchingAC(true))
-    profileURL.getStatus(userId).then(res => {
-        dispatch(setUserStatusAC(res.data))
-        dispatch(toggleIsFetchingAC(false))
-    })
+    const response = await profileURL.getStatus(userId)
+    dispatch(setUserStatusAC(response.data))
+    dispatch(toggleIsFetchingAC(false))
 }
-export const updateUserStatusTC = (status: string): ThunkType => (dispatch) => {
-    profileURL.updateStatus(status).then(res => {
-        if (res.data.resultCode === 0) {
-            dispatch(setUserStatusAC(status))
-        }
-    })
+export const updateUserStatusTC = (status: string): ThunkType => async (dispatch) => {
+    const response = await profileURL.updateStatus(status)
+    if (response.data.resultCode === 0) {
+        dispatch(setUserStatusAC(status))
+    }
 }
 
 //types

@@ -3,7 +3,7 @@ import s from "./Login.module.css";
 import React from "react";
 import {ThunkType} from "../../redux/redux-store";
 
-export const LoginForm = (props: LoginFormPropsType) => {
+export const LoginForm = ({onSubmit, networkError}: LoginFormPropsType) => {
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -25,7 +25,7 @@ export const LoginForm = (props: LoginFormPropsType) => {
             return errors;
         },
         onSubmit: values => {
-            props.onSubmit(formik.values.email, formik.values.password, formik.values.rememberMe)
+            onSubmit(formik.values.email, formik.values.password, formik.values.rememberMe)
             formik.resetForm()
         },
     });
@@ -57,7 +57,7 @@ export const LoginForm = (props: LoginFormPropsType) => {
                 <label>Remember me</label>
             </div>
             <div>
-                {props.networkError}
+                {networkError}
             </div>
             <button type="submit" className={s.loginButton}>Login</button>
         </form>

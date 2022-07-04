@@ -11,7 +11,7 @@ const initialState: AuthStateType = {
 
 export const authReducer = (state: AuthStateType = initialState, action: AuthActionsType): AuthStateType => {
     switch (action.type) {
-        case "SET-USER-DATA": {
+        case "AUTH/SET-USER-DATA": {
             return {
                 ...state,
                 ...action.payload
@@ -25,45 +25,36 @@ export const authReducer = (state: AuthStateType = initialState, action: AuthAct
 //actions
 export const setAuthUserDataAC = (id: number | null, login: string, email: string, isAuth: boolean) => {
     return {
-        type: "SET-USER-DATA",
+        type: "AUTH/SET-USER-DATA",
         payload: {id, login, email, isAuth}
     } as const
 };
 
 //thunks
-export const setAuthUserDataTC = (): ThunkType => (dispatch) => {
-    return authURL.me()
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                let {id, login, email} = response.data.data;
-                dispatch(setAuthUserDataAC(id, login, email, true))
-            }
-        })
+export const setAuthUserDataTC = (): ThunkType => async (dispatch) => {
+    const response = await authURL.me()
+    if (response.data.resultCode === 0) {
+        let {id, login, email} = response.data.data;
+        dispatch(setAuthUserDataAC(id, login, email, true))
+    }
 }
-export type SomeReturnType = ReturnType<typeof setAuthUserDataTC>
-export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => (dispatch) => {
-    authURL.login({email, password, rememberMe})
-        .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(setAuthUserDataTC())
-                } else {
-                    if (response.data.messages.length) {
-                        dispatch(setNetworkErrorAC(response.data.messages[0]))
-                    } else {
-                        dispatch(setNetworkErrorAC("Some error occurred"))
-                    }
-                }
-            }
-        )
+export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => async (dispatch) => {
+    const response = await authURL.login({email, password, rememberMe})
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserDataTC())
+    } else {
+        if (response.data.messages.length) {
+            dispatch(setNetworkErrorAC(response.data.messages[0]))
+        } else {
+            dispatch(setNetworkErrorAC("Some error occurred"))
+        }
+    }
 }
-export const logoutTC = (): ThunkType => (dispatch) => {
-    authURL.logout()
-        .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(setAuthUserDataAC(null, '', '', false))
-                }
-            }
-        )
+export const logoutTC = (): ThunkType => async (dispatch) => {
+    const response = await authURL.logout()
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserDataAC(null, '', '', false))
+    }
 }
 
 //types

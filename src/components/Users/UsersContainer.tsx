@@ -11,12 +11,14 @@ import {getCurrentPage, getIsDisabled, getPageSize, getTotalCount, getUsers} fro
 
 export class UsersContainer extends React.Component<UsersContainerPropsType> {
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize)
+        const {currentPage, pageSize} = this.props
+        this.props.getUsers(currentPage, pageSize)
     }
 
     onPageChanged = (currentPage: number) => {
+        const {pageSize} = this.props
         this.props.setCurrentPage(currentPage);
-        this.props.getUsers(currentPage, this.props.pageSize)
+        this.props.getUsers(currentPage, pageSize)
     }
 
     render() {

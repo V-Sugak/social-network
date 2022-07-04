@@ -9,13 +9,13 @@ const initialState: AppStateType = {
 
 export const appReducer = (state: AppStateType = initialState, action: AppActionsType): AppStateType => {
     switch (action.type) {
-        case "TOGGLE-IS-FETCHING": {
+        case "APP/TOGGLE-IS-FETCHING": {
             return {...state, isFetching: action.isFetching}
         }
-        case "SET-NETWORK-ERROR": {
+        case "APP/SET-NETWORK-ERROR": {
             return {...state, networkError: action.error}
         }
-        case "SET-INITIALIZED-SUCCESS": {
+        case "APP/SET-INITIALIZED-SUCCESS": {
             return {...state, initializedSuccess: true}
         }
         default:
@@ -25,13 +25,13 @@ export const appReducer = (state: AppStateType = initialState, action: AppAction
 
 //actions
 export const toggleIsFetchingAC = (isFetching: boolean) => {
-    return {type: "TOGGLE-IS-FETCHING", isFetching} as const
+    return {type: "APP/TOGGLE-IS-FETCHING", isFetching} as const
 }
 export const setNetworkErrorAC = (error: string) => {
-    return {type: "SET-NETWORK-ERROR", error} as const
+    return {type: "APP/SET-NETWORK-ERROR", error} as const
 }
 export const setInitializedSuccessAC = () => {
-    return {type: "SET-INITIALIZED-SUCCESS"} as const
+    return {type: "APP/SET-INITIALIZED-SUCCESS"} as const
 }
 
 //thunks

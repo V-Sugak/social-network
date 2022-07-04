@@ -16,10 +16,10 @@ export const usersURL = {
         return instance.get<UsersSetResponseType>(`users?page=${currentPage}&count=${pageSize}`)
     },
     follow(userId: number) {
-        return instance.post<ResponseType>(`follow/${userId}`)
+        return instance.post<ResponseType>(`follow/${userId}`).then(response => response.data)
     },
     unfollow(userId: number) {
-        return instance.delete<ResponseType>(`follow/${userId}`)
+        return instance.delete<ResponseType>(`follow/${userId}`).then(response => response.data)
     },
 }
 export const profileURL = {
@@ -56,7 +56,7 @@ type AuthenticatedUserData = {
     email: string
     login: string
 }
-type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
     resultCode: number
     messages: Array<string>,
     data: T

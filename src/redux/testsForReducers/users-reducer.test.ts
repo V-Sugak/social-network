@@ -1,7 +1,6 @@
 import {
     followAC, UsersStateType, setTotalUsersCountAC,
     setUsersAC,
-    unfollowAC,
     usersReducer, UserType, isDisabledAC
 } from "../users-reducer";
 
@@ -38,18 +37,12 @@ beforeEach(() => {
     }
 })
 
-test("should be a change: follow to unfollow", () => {
+test("should be changed: follow-unfollow", () => {
     const endState = usersReducer(startState, followAC(21625));
-
     expect(startState.users[0].followed).toBeFalsy();
     expect(endState.users[0].followed).toBeTruthy();
-})
-
-test("should be a change: unfollow to follow", () => {
-    const endState = usersReducer(startState, unfollowAC(21624));
-
-    expect(startState.users[1].followed).toBeTruthy();
-    expect(endState.users[1].followed).toBeFalsy();
+    const endState1 = usersReducer(endState, followAC(21625));
+    expect(endState1.users[0].followed).toBeFalsy();
 })
 
 test("user should be set", () => {

@@ -8,16 +8,16 @@ import {compose} from "redux";
 import {Redirect} from "react-router-dom";
 import {setNetworkErrorAC} from "../../redux/app-reducer";
 
-const Login = (props: LoginPropsType) => {
-    if (props.isAuth) {
-        if (props.networkError) {
-            props.setNetworkError('')
+const Login = ({isAuth, networkError, setNetworkError, login}: LoginPropsType) => {
+    if (isAuth) {
+        if (networkError) {
+            setNetworkError('')
         }
         return <Redirect to={"/profile"}/>
     }
     return <div className={s.loginContainer}>
         <h1 className={s.loginHeader}>Login</h1>
-        <LoginForm onSubmit={props.login} networkError={props.networkError}/>
+        <LoginForm onSubmit={login} networkError={networkError}/>
     </div>
 }
 

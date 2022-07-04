@@ -1,27 +1,13 @@
-import React, {MouseEvent} from "react";
-import s from "./users.module.css";
+import React from "react";
 import {UserType} from "../../redux/users-reducer";
-import {NavLink} from "react-router-dom";
-import userPhoto from "../../assets/images/user.png";
+import {Paginator} from "../common/Paginator/Paginator";
+import {User} from "./User";
 
 
 export const Users = (props: UsersPropsType) => {
-    let pagesCount = Math.ceil(props.totalCount / props.pageSize);
-    let pages = [];
-
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
-    }
     return <div>
-        <div>
-            {pages.map(n => {
-                let onClickHandler = (e: MouseEvent<HTMLSpanElement>) => {
-                    props.onPageChanged(n)
-                }
-                return <span onClick={onClickHandler}
-                             className={props.currentPage === n ? s.userPage : ''}>{n} </span>
-            })}
-        </div>
+        <Paginator onPageChanged={props.onPageChanged} pageSize={props.pageSize} currentPage={props.currentPage}
+                   totalCount={props.totalCount}/>
         {
             props.users.map(u => {
                 const onClickFollowHandler = () => {
@@ -30,32 +16,11 @@ export const Users = (props: UsersPropsType) => {
                 const onClickUnfollowHandler = () => {
                     props.unfollow(u.id)
                 }
-                return <div key={u.id}>
-                    <span>
-                        <div>
-                            <NavLink to={'/profile/' + u.id}>
-                            <img src={u.photos.small !== null ? u.photos.small : userPhoto}
-                                 className={s.photoUser}/>
-                            </NavLink>
-                        </div>
-                        <div> {u.followed ?
-                            <button onClick={onClickUnfollowHandler}
-                                    disabled={props.isDisabled.some(id => id === u.id)}> FOLLOW </button>
-                            : <button onClick={onClickFollowHandler}
-                                      disabled={props.isDisabled.some(id => id === u.id)}> UNFOLLOW </button>}
-                            </div>
-                    </span>
-                    <span>
-                        <span>
-                            <div>{u.name}</div>
-                            <div>{u.status}</div>
-                        </span>
-                        <span>
-                            <div>{'u.location.country'}</div>
-                            <div>{'u.location.city'}</div>
-                        </span>
-                    </span>
-                </div>
+                return <User key={u.id}
+                             user={u}
+                             onClickUnfollowHandler={onClickUnfollowHandler}
+                             onClickFollowHandler={onClickFollowHandler}
+                             isDisabled={props.isDisabled}/>
             })
         }
     </div>
