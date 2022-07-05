@@ -18,6 +18,10 @@ let rootReducer = combineReducers({
 
 export let store = createStore(rootReducer, applyMiddleware(thunk))
 
+// @ts-ignore
+/*const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))*/
+
 //types
 export type RootStateType = ReturnType<typeof rootReducer>
 export type RootActionsType =
@@ -28,5 +32,3 @@ export type RootActionsType =
     | DialogsActionsType
 export type ThunkType<ReturnType = void> = ThunkAction<ReturnType, RootStateType, unknown, RootActionsType>
 
-// @ts-ignore
-window.store = store

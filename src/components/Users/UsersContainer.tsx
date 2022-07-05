@@ -33,6 +33,7 @@ export class UsersContainer extends React.Component<UsersContainerPropsType> {
                 follow={this.props.follow}
                 unfollow={this.props.unfollow}
                 isDisabled={this.props.isDisabled}
+                portionSize={this.props.portionSize}
             />
         </>
     }
@@ -46,6 +47,7 @@ const mapStateToProps = (state: RootStateType): mapStateToPropsType => {
         currentPage: getCurrentPage(state),
         isFetching: state.app.isFetching,
         isDisabled: getIsDisabled(state),
+        portionSize: state.usersPage.portionSize
     }
 };
 
@@ -64,6 +66,7 @@ type mapStateToPropsType = {
     currentPage: number
     isFetching: boolean
     isDisabled: Array<number>
+    portionSize: number
 }
 type mapDispatchToPropsType = {
     follow: (userId: number) => void

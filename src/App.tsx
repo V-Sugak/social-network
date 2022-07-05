@@ -1,5 +1,5 @@
 import React, {ComponentType} from "react";
-import {Route, withRouter} from "react-router-dom";
+import {BrowserRouter, Route, withRouter} from "react-router-dom";
 import "./App.css";
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
@@ -11,9 +11,9 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import {compose} from "redux";
-import {connect} from "react-redux"
+import {connect, Provider} from "react-redux"
 import {initializedAppTC} from "./redux/app-reducer";
-import {RootStateType} from "./redux/redux-store";
+import {RootStateType, store} from "./redux/redux-store";
 import {Preloader} from "./components/common/Preloader/Preloader";
 
 class App extends React.Component<AppPropsType> {
@@ -48,10 +48,15 @@ const mapStateToProps = (state: RootStateType): mapStatePropsType => {
         initialized: state.app.initializedSuccess,
     }
 }
-export default compose<ComponentType>(withRouter, connect(mapStateToProps, {
+const AppContainer =  compose<ComponentType>(withRouter, connect(mapStateToProps, {
     initializedApp: initializedAppTC,
 }))(App)
 //чтобы Routes нормально работали, надо обернуть компонент в withRouter
+export const MainApp = () => {
+   return <BrowserRouter>
+        <Provider store={store}><AppContainer/></Provider>
+    </BrowserRouter>
+}
 
 //types
 type mapDispatchPropsType = {

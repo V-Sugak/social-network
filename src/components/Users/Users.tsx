@@ -7,7 +7,7 @@ import {User} from "./User";
 export const Users = (props: UsersPropsType) => {
     return <div>
         <Paginator onPageChanged={props.onPageChanged} pageSize={props.pageSize} currentPage={props.currentPage}
-                   totalCount={props.totalCount}/>
+                   totalCount={props.totalCount} portionSize={props.portionSize}/>
         {
             props.users.map(u => {
                 const onClickFollowHandler = () => {
@@ -36,4 +36,5 @@ type UsersPropsType = {
     onPageChanged: (currentPage: number) => void
     follow: (userId: number) => void
     unfollow: (userId: number) => void
+    portionSize: number
 }

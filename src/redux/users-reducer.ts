@@ -7,9 +7,10 @@ const initialState: UsersStateType = {
     users: [],
     totalCount: 0,                        //количество всех пользователей(с сервера)
     error: null,
-    pageSize: 100,
+    pageSize: 10,
     currentPage: 1,
-    isDisabled: []
+    isDisabled: [],
+    portionSize: 10,
 }
 
 export const usersReducer = (state: UsersStateType = initialState, action: UsersActionsType): UsersStateType => {
@@ -101,6 +102,7 @@ export type UsersStateType = {
     pageSize: number
     currentPage: number
     isDisabled: Array<number>
+    portionSize: number
 }
 type APIMethodType = (userId: number) => Promise<ResponseType>
 export type UsersActionsType =
