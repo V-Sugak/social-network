@@ -54,3 +54,4 @@ describe("ProfileStatus component", () => {
           expect(mockCallback.mock.calls.length).toBe(1);
       });*/
 });
+
