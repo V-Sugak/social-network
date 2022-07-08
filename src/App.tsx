@@ -1,13 +1,11 @@
 import React, {ComponentType} from "react";
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {HashRouter, Route, withRouter} from "react-router-dom";
 import "./App.css";
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
 import {Settings} from "./components/Settings/Settings";
-//import Dialogs from "./components/Dialogs/DialogsContainer";
 import {NavbarContainer} from "./components/Navbar/NavbarContainer";
 import UsersContainer from "./components/Users/UsersContainer";
-//import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import {compose} from "redux";
@@ -58,9 +56,9 @@ const AppContainer = compose<ComponentType>(withRouter, connect(mapStateToProps,
 }))(App)
 //чтобы Routes нормально работали, надо обернуть компонент в withRouter
 export const MainApp = () => {
-    return <BrowserRouter>
+    return <HashRouter>
         <Provider store={store}><AppContainer/></Provider>
-    </BrowserRouter>
+    </HashRouter>
 }
 
 //types
