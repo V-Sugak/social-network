@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import s from "./ProfileInfo.module.css"
 import {UserProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
@@ -10,11 +10,20 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
         return <Preloader/>
     }
 
+    const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            props.savePhoto(e.target.files[0])
+        }
+    }
+
     return (
         <div>
             <div className={s.descriptionBlock}>
                 <div className={s.photo}>
                     <img src={props.profile.photos.large !== null ? props.profile.photos.large : userPhoto}/>
+                    <div>
+                        {props.isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
+                    </div>
                 </div>
                 <div>
                     <div className={s.statusBlock}>
@@ -39,4 +48,6 @@ type ProfileInfoPropsType = {
     profile: UserProfileType | null
     status: string
     updateUserStatus: (status: string) => void
+    isOwner: boolean
+    savePhoto: (file: File) => void
 }

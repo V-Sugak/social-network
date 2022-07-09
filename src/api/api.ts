@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from "axios";
-import {UserType} from "../redux/users-reducer";
+import {PhotosType, UserType} from "../redux/users-reducer";
 import {UserProfileType} from "../redux/profile-reducer";
 
 const instance = axios.create(
@@ -31,6 +31,15 @@ export const profileURL = {
     },
     updateStatus(status: string) {
         return instance.put <{ status: string }, AxiosResponse<ResponseType>>("profile/status", {status})
+    },
+    savePhoto(file: File) {
+        const formData = new FormData()      // создаем объект
+        formData.append("image", file) //добавляем св-во image
+        return instance.put<{ image: File }, AxiosResponse<ResponseType<PhotosType>>>("profile/photo", formData, {
+            headers: {
+                "Content-type": "multipart/form-data"
+            }
+        })
     },
 }
 export const authURL = {

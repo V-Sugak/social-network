@@ -37,6 +37,15 @@ export const profileReducer = (state: StateProfileType = initialState, action: P
         case "PROFILE/SET-USER-STATUS": {
             return {...state, status: action.status}
         }
+        case "PROFILE/SAVE-PHOTO-SUCCESS": {
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    photos: {...action.photos}
+                } as UserProfileType
+            }
+        }
         default:
             return state;
     }
@@ -52,7 +61,9 @@ export const setUserProfileAC = (profile: UserProfileType) => {
 export const setUserStatusAC = (status: string) => {
     return {type: "PROFILE/SET-USER-STATUS", status} as const
 }
-
+export const savePhotoSuccessAC = (photos: PhotosType) => {
+    return {type: "PROFILE/SAVE-PHOTO-SUCCESS", photos} as const
+}
 
 //thunks
 export const getUserProfileTC = (userId: number): ThunkType => async (dispatch) => {
@@ -72,6 +83,15 @@ export const updateUserStatusTC = (status: string): ThunkType => async (dispatch
     if (response.data.resultCode === 0) {
         dispatch(setUserStatusAC(status))
     }
+}
+export const savePhotoTC = (file: File): ThunkType => (dispatch) => {
+    dispatch(toggleIsFetchingAC(true))
+    profileURL.savePhoto(file).then(response => {
+        if (response.data.resultCode === 0) {
+            savePhotoSuccessAC(response.data.data)
+        }
+        dispatch(toggleIsFetchingAC(false))
+    })
 }
 
 //types
@@ -108,3 +128,4 @@ export type ProfileActionsType =
     | ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserProfileAC>
     | ReturnType<typeof setUserStatusAC>
+    | ReturnType<typeof savePhotoSuccessAC>

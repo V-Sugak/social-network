@@ -1,14 +1,20 @@
 import React, {ComponentType} from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
-import {UserProfileType, getUserProfileTC, getUserStatusTC, updateUserStatusTC} from "../../redux/profile-reducer";
+import {
+    UserProfileType,
+    getUserProfileTC,
+    getUserStatusTC,
+    updateUserStatusTC,
+    savePhotoTC
+} from "../../redux/profile-reducer";
 import {RootStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {Preloader} from "../common/Preloader/Preloader";
 import {compose} from "redux";
 
 class ProfileContainer extends React.Component<PropsType> {
-    componentDidMount() {
+    refreshProfile() {
         let userId = Number(this.props.match.params.userId)
         if (!userId) {
             if (this.props.authorizedUserId) {
@@ -23,12 +29,24 @@ class ProfileContainer extends React.Component<PropsType> {
         this.props.getUserStatus(userId)
     }
 
+    componentDidMount() {
+        this.refreshProfile()
+    }
+
+    componentDidUpdate(prevProps: Readonly<PropsType>) {
+        if (this.props.match.params.userId !== prevProps.match.params.userId) {
+            this.refreshProfile()
+        }
+    }
+
     render() {
         return <div>
             {this.props.isFetching ? <Preloader/> : <Profile
                 status={this.props.status}
                 profile={this.props.profile}
                 updateUserStatus={this.props.updateUserStatus}
+                isOwner={!this.props.match.params.userId}
+                savePhoto={this.props.savePhoto}
             />}
         </div>
     }
@@ -49,6 +67,7 @@ export default compose<ComponentType>(
         getUsersProfile: getUserProfileTC,
         getUserStatus: getUserStatusTC,
         updateUserStatus: updateUserStatusTC,
+        savePhoto: savePhotoTC,
     }),
     withRouter,
 )(ProfileContainer);
@@ -65,6 +84,7 @@ type MapDispatchProps = {
     getUsersProfile: (userId: number) => void
     getUserStatus: (userId: number) => void
     updateUserStatus: (status: string) => void
+    savePhoto: (file: File) => void
 };
 type PathParamsType = {
     userId: string
