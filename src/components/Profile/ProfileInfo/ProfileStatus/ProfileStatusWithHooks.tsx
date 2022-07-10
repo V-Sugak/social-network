@@ -13,7 +13,7 @@ export const ProfileStatusWithHooks = (props: ProfileStatusPropsType) => {
         props.updateUserStatus(status)
         setEditMode(false)
     }
-    const activatedEditMode = () => setEditMode(true)
+    const activatedEditMode = () => props.isOwner && setEditMode(true)
 
     return <div>
         {editMode ?
@@ -35,4 +35,5 @@ export const ProfileStatusWithHooks = (props: ProfileStatusPropsType) => {
 type ProfileStatusPropsType = {
     status: string
     updateUserStatus: (status: string) => void
+    isOwner: boolean
 }

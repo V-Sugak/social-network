@@ -1,15 +1,18 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import s from "./ProfileInfo.module.css"
 import {UserProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
 import {ProfileStatusWithHooks} from "./ProfileStatus/ProfileStatusWithHooks";
+import {ProfileData} from "./ProfileData/ProfileData";
+import {ProfileDataForm} from "./ProfileData/ProfileDataForm";
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
+    const [editMode, setEditMode] = useState<boolean>(false)
+
     if (!props.profile) {
         return <Preloader/>
     }
-
     const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
             props.savePhoto(e.target.files[0])
@@ -28,14 +31,12 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                 <div>
                     <div className={s.statusBlock}>
                         <span className={s.name}>{props.profile.fullName}</span>
-                        <ProfileStatusWithHooks updateUserStatus={props.updateUserStatus} status={props.status}/>
+                        <ProfileStatusWithHooks isOwner={props.isOwner} updateUserStatus={props.updateUserStatus} status={props.status}/>
                     </div>
                     <div>
-                        <b>About me: </b> {props.profile.aboutMe}
-                    </div>
-                    <div>
-                        <b>Looking for a job: </b>
-                        <input type={'checkbox'} checked={props.profile.lookingForAJob}/>
+                        {editMode
+                            ? <ProfileDataForm/>
+                            : <ProfileData profile={props.profile} isOwner={props.isOwner} goToEditMode={setEditMode}/>}
                     </div>
                 </div>
             </div>
