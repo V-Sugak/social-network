@@ -3,9 +3,9 @@ import s from "./ProfileInfo.module.css"
 import {UserProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
-import {ProfileStatusWithHooks} from "./ProfileStatus/ProfileStatusWithHooks";
 import {ProfileData} from "./ProfileData/ProfileData";
 import {ProfileDataForm} from "./ProfileData/ProfileDataForm";
+import {ProfileType} from "../../../api/api";
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
     const [editMode, setEditMode] = useState<boolean>(false)
@@ -29,15 +29,16 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                     </div>
                 </div>
                 <div>
-                    <div className={s.statusBlock}>
-                        <span className={s.name}>{props.profile.fullName}</span>
-                        <ProfileStatusWithHooks isOwner={props.isOwner} updateUserStatus={props.updateUserStatus} status={props.status}/>
-                    </div>
-                    <div>
-                        {editMode
-                            ? <ProfileDataForm/>
-                            : <ProfileData profile={props.profile} isOwner={props.isOwner} goToEditMode={setEditMode}/>}
-                    </div>
+                    {editMode
+                        ? <ProfileDataForm profile={props.profile}
+                                           goToEditMode={setEditMode}
+                                           saveProfile={props.saveProfile}/>
+                        : <ProfileData editMode={editMode}
+                                       updateUserStatus={props.updateUserStatus}
+                                       status={props.status}
+                                       profile={props.profile}
+                                       isOwner={props.isOwner}
+                                       goToEditMode={setEditMode}/>}
                 </div>
             </div>
         </div>
@@ -51,4 +52,5 @@ type ProfileInfoPropsType = {
     updateUserStatus: (status: string) => void
     isOwner: boolean
     savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileType) => void
 }

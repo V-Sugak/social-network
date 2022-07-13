@@ -41,6 +41,9 @@ export const profileURL = {
             }
         })
     },
+    saveProfile(profile: ProfileType) {
+        return instance.put<{ profile: ProfileType }, AxiosResponse<ResponseType>>("profile", profile)
+    }
 }
 export const authURL = {
     me() {
@@ -75,3 +78,4 @@ type LoginRequestType = {
     password: string
     rememberMe: boolean
 }
+export type ProfileType = Omit<UserProfileType, "photos">

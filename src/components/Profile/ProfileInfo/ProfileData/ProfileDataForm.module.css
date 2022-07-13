@@ -1,0 +1,9 @@
+.contactBlock {
+    padding-left: 35px;
+}
+
+.btn{
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+}

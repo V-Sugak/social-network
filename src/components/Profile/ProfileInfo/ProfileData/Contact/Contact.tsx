@@ -3,7 +3,8 @@ import s from "./Contact.module.css"
 
 export const Contact = (props: ContactPropsType) => {
     return <div className={s.contactBlock}>
-        <b>{props.title}: </b> {props.value}
+        <b>{props.title}: </b> <span>{props.value}</span>
+
     </div>
 }
 

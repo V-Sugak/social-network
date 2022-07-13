@@ -6,12 +6,13 @@ import {
     getUserProfileTC,
     getUserStatusTC,
     updateUserStatusTC,
-    savePhotoTC
+    savePhotoTC, saveProfileTC
 } from "../../redux/profile-reducer";
 import {RootStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {Preloader} from "../common/Preloader/Preloader";
 import {compose} from "redux";
+import {ProfileType} from "../../api/api";
 
 class ProfileContainer extends React.Component<PropsType> {
     refreshProfile() {
@@ -47,6 +48,7 @@ class ProfileContainer extends React.Component<PropsType> {
                 updateUserStatus={this.props.updateUserStatus}
                 isOwner={!this.props.match.params.userId}
                 savePhoto={this.props.savePhoto}
+                saveProfile={this.props.saveProfile}
             />}
         </div>
     }
@@ -68,6 +70,7 @@ export default compose<ComponentType>(
         getUserStatus: getUserStatusTC,
         updateUserStatus: updateUserStatusTC,
         savePhoto: savePhotoTC,
+        saveProfile: saveProfileTC,
     }),
     withRouter,
 )(ProfileContainer);
@@ -85,6 +88,7 @@ type MapDispatchProps = {
     getUserStatus: (userId: number) => void
     updateUserStatus: (status: string) => void
     savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileType) => void
 };
 type PathParamsType = {
     userId: string

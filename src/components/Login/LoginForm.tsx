@@ -6,21 +6,21 @@ import {ThunkType} from "../../redux/redux-store";
 export const LoginForm = ({onSubmit, networkError}: LoginFormPropsType) => {
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: '',
+            email: "",
+            password: "",
             rememberMe: false,
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
             if (!values.email) {
-                errors.email = 'Required';
+                errors.email = "Required";
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address';
+                errors.email = "Invalid email address";
             }
             if (!values.password) {
-                errors.password = 'Required';
+                errors.password = "Required";
             } else if (values.password.length < 4) {
-                errors.password = 'Must be 4 characters or more';
+                errors.password = "Must be 4 characters or more";
             }
             return errors;
         },
@@ -34,7 +34,7 @@ export const LoginForm = ({onSubmit, networkError}: LoginFormPropsType) => {
         <form onSubmit={formik.handleSubmit} className={s.form}>
             <div className={s.loginData}>
                 <input
-                    {...formik.getFieldProps('email')}
+                    {...formik.getFieldProps("email")}
                     placeholder={"Email"}
                 />
                 {formik.touched.email && formik.errors.email && <div className={s.error}>{formik.errors.email}</div>}
@@ -42,7 +42,7 @@ export const LoginForm = ({onSubmit, networkError}: LoginFormPropsType) => {
             <div className={s.loginData}>
                 <input
                     type="password"
-                    {...formik.getFieldProps('password')}
+                    {...formik.getFieldProps("password")}
                     placeholder={"Password"}
                 />
                 {formik.touched.password && formik.errors.password &&
@@ -52,7 +52,7 @@ export const LoginForm = ({onSubmit, networkError}: LoginFormPropsType) => {
                 <input
                     type="checkbox"
                     checked={formik.values.rememberMe}
-                    {...formik.getFieldProps('rememberMe')}
+                    {...formik.getFieldProps("rememberMe")}
                 />
                 <label>Remember me</label>
             </div>

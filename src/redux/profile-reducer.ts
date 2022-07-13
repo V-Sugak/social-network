@@ -1,6 +1,6 @@
 import {PhotosType} from "./users-reducer";
 import {ThunkType} from "./redux-store";
-import {profileURL} from "../api/api";
+import {ProfileType, profileURL} from "../api/api";
 import {toggleIsFetchingAC} from "./app-reducer";
 
 let initialState: StateProfileType = {
@@ -84,13 +84,19 @@ export const updateUserStatusTC = (status: string): ThunkType => async (dispatch
         dispatch(setUserStatusAC(status))
     }
 }
-export const savePhotoTC = (file: File): ThunkType => (dispatch) => {
+export const savePhotoTC = (file: File): ThunkType => async (dispatch) => {
     dispatch(toggleIsFetchingAC(true))
-    profileURL.savePhoto(file).then(response => {
+    const response = await profileURL.savePhoto(file)
+    if (response.data.resultCode === 0) {
+        savePhotoSuccessAC(response.data.data)
+    }
+    dispatch(toggleIsFetchingAC(false))
+}
+export const saveProfileTC = (profile: ProfileType): ThunkType => (dispatch) => {
+    profileURL.saveProfile(profile).then((response) => {
         if (response.data.resultCode === 0) {
-            savePhotoSuccessAC(response.data.data)
+            dispatch(getUserProfileTC(profile.userId))
         }
-        dispatch(toggleIsFetchingAC(false))
     })
 }
 
@@ -101,14 +107,14 @@ export type PostType = {
     likesCount: number
 }
 export type ContactsType = {
-    github: string | null
-    vk: string | null
-    facebook: string | null
-    instagram: string | null
-    twitter: string | null
-    website: string | null
-    youtube: string | null
-    mainLink: string | null
+    github: string
+    vk: string
+    facebook: string
+    instagram: string
+    twitter: string
+    website: string
+    youtube: string
+    mainLink: string
 }
 export type UserProfileType = {
     userId: number
