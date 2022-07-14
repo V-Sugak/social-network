@@ -31,8 +31,8 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                 <div>
                     {editMode
                         ? <ProfileDataForm profile={props.profile}
-                                           goToEditMode={setEditMode}
-                                           saveProfile={props.saveProfile}/>
+                                           saveProfile={props.saveProfile}
+                                           networkError={props.networkError}/>
                         : <ProfileData editMode={editMode}
                                        updateUserStatus={props.updateUserStatus}
                                        status={props.status}
@@ -52,5 +52,6 @@ type ProfileInfoPropsType = {
     updateUserStatus: (status: string) => void
     isOwner: boolean
     savePhoto: (file: File) => void
-    saveProfile: (profile: ProfileType) => void
+    saveProfile: (profile: ProfileType, networkError: string) => void
+    networkError: string
 }

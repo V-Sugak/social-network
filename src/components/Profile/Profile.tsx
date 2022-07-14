@@ -14,6 +14,7 @@ export const Profile = (props: ProfilePropsType) => {
                 updateUserStatus={props.updateUserStatus}
                 savePhoto={props.savePhoto}
                 saveProfile={props.saveProfile}
+                networkError={props.networkError}
             />
             <MyPostsContainer/>
         </div>
@@ -26,6 +27,7 @@ export type ProfilePropsType = {
     status: string
     updateUserStatus: (status: string) => void
     savePhoto: (file: File) => void
-    saveProfile: (profile: ProfileType) => void
+    saveProfile: (profile: ProfileType, networkError: string) => void
     isOwner: boolean
+    networkError: string
 }

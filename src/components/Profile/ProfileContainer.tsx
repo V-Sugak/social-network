@@ -49,6 +49,7 @@ class ProfileContainer extends React.Component<PropsType> {
                 isOwner={!this.props.match.params.userId}
                 savePhoto={this.props.savePhoto}
                 saveProfile={this.props.saveProfile}
+                networkError={this.props.networkError}
             />}
         </div>
     }
@@ -61,6 +62,7 @@ const mapStateToProps = (state: RootStateType): MapStatePropsType => {
         status: state.profilePage.status,
         authorizedUserId: state.auth.id,
         isAuth: state.auth.isAuth,
+        networkError: state.app.networkError,
     }
 };
 
@@ -82,13 +84,14 @@ type MapStatePropsType = {
     status: string
     authorizedUserId: number | null
     isAuth: boolean
+    networkError: string
 };
 type MapDispatchProps = {
     getUsersProfile: (userId: number) => void
     getUserStatus: (userId: number) => void
     updateUserStatus: (status: string) => void
     savePhoto: (file: File) => void
-    saveProfile: (profile: ProfileType) => void
+    saveProfile: (profile: ProfileType, networkError: string) => void
 };
 type PathParamsType = {
     userId: string

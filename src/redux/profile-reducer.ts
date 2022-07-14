@@ -1,7 +1,7 @@
 import {PhotosType} from "./users-reducer";
 import {ThunkType} from "./redux-store";
 import {ProfileType, profileURL} from "../api/api";
-import {toggleIsFetchingAC} from "./app-reducer";
+import {setNetworkErrorAC, toggleIsFetchingAC} from "./app-reducer";
 
 let initialState: StateProfileType = {
     posts: [
@@ -92,10 +92,15 @@ export const savePhotoTC = (file: File): ThunkType => async (dispatch) => {
     }
     dispatch(toggleIsFetchingAC(false))
 }
-export const saveProfileTC = (profile: ProfileType): ThunkType => (dispatch) => {
+export const saveProfileTC = (profile: ProfileType, networkError: string): ThunkType => (dispatch) => {
     profileURL.saveProfile(profile).then((response) => {
         if (response.data.resultCode === 0) {
+            if (networkError) {
+                dispatch(setNetworkErrorAC(""))
+            }
             dispatch(getUserProfileTC(profile.userId))
+        } else {
+            dispatch(setNetworkErrorAC(response.data.messages[0]))
         }
     })
 }

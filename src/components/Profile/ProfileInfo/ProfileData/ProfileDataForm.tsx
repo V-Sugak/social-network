@@ -5,12 +5,6 @@ import {ProfileType} from "../../../../api/api";
 import s from "./ProfileDataForm.module.css"
 
 export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
-    const stringInput = (value: string | null) => {
-        if (value) {
-            return value
-        }
-        return ""
-    }
     const formik = useFormik({
         initialValues: {
             fullName: props.profile.fullName,
@@ -26,20 +20,26 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
             youtube: props.profile.contacts.youtube,
             mainLink: props.profile.contacts.mainLink,
         },
-        /*  validate: (values) => {
-              const errors: FormikErrorType = {};
-              if (!values.email) {
-                  errors.email = 'Required';
-              } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                  errors.email = 'Invalid email address';
-              }
-              if (!values.password) {
-                  errors.password = 'Required';
-              } else if (values.password.length < 4) {
-                  errors.password = 'Must be 4 characters or more';
-              }
-              return errors;
-          },*/
+        validate: (values) => {
+            const errors: FormikErrorType = {};
+            if (!values.aboutMe) {
+                errors.aboutMe = 'Required';
+            }
+            if (!values.lookingForAJobDescription) {
+                errors.lookingForAJobDescription = 'Required';
+            }
+            /*   if (!values.email) {
+                   errors.email = 'Required';
+               } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                   errors.email = 'Invalid email address';
+               }
+               if (!values.password) {
+                   errors.password = 'Required';
+               } else if (values.password.length < 4) {
+                   errors.password = 'Must be 4 characters or more';
+               }*/
+            return errors;
+        },
         onSubmit: values => {
             /*   onSubmit(formik.values.email, formik.values.password, formik.values.rememberMe)
                formik.resetForm()*/
@@ -47,21 +47,20 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
             props.saveProfile({
                 userId: props.profile.userId,
                 fullName: formik.values.fullName,
-                aboutMe: stringInput(formik.values.aboutMe),
+                aboutMe: formik.values.aboutMe,
                 lookingForAJob: formik.values.lookingForAJob,
-                lookingForAJobDescription: stringInput(formik.values.lookingForAJobDescription),
+                lookingForAJobDescription: formik.values.lookingForAJobDescription,
                 contacts: {
-                    github: stringInput(formik.values.github),
-                    vk: stringInput(formik.values.vk),
-                    facebook: stringInput(formik.values.facebook),
-                    instagram: stringInput(formik.values.instagram),
-                    twitter: stringInput(formik.values.twitter),
-                    website: stringInput(formik.values.website),
-                    youtube: stringInput(formik.values.youtube),
-                    mainLink: stringInput(formik.values.mainLink),
+                    github: formik.values.github,
+                    vk: formik.values.vk,
+                    facebook: formik.values.facebook,
+                    instagram: formik.values.instagram,
+                    twitter: formik.values.twitter,
+                    website: formik.values.website,
+                    youtube: formik.values.youtube,
+                    mainLink: formik.values.mainLink,
                 }
-            })
-            props.goToEditMode(false)
+            }, props.networkError)
         },
     });
 
@@ -84,7 +83,8 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
             <div className={s.aboutMe}>
                 <b>About me: </b>
                 <div><textarea {...formik.getFieldProps("aboutMe")}/></div>
-                {/* {formik.touched.email && formik.errors.email && <div className={s.error}>{formik.errors.email}</div>}*/}
+                {formik.touched.aboutMe && formik.errors.aboutMe &&
+                <div className={s.error}>{formik.errors.aboutMe}</div>}
             </div>
             <div className={s.lookingForAJob}>
                 <b>Looking for a job: </b> <input type="checkbox"
@@ -92,9 +92,11 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
                                                   {...formik.getFieldProps("lookingForAJob")}/>
             </div>
             <div className={s.lookingForAJobDescription}>
-                <b>My professional skills: </b>
+                <b>Description my professional skills: </b>
                 <div>
                     <textarea {...formik.getFieldProps("lookingForAJobDescription")}/>
+                    {formik.touched.lookingForAJobDescription && formik.errors.lookingForAJobDescription &&
+                    <div className={s.error}>{formik.errors.lookingForAJobDescription}</div>}
                 </div>
             </div>
             <div>
@@ -108,14 +110,26 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
             }
             </div>
         </div>
-        <div className={s.btn}>
-            <button type="submit" onClick={() => props.goToEditMode(true)}>Save data</button>
+        <div className={s.submitBock}>
+            <div className={s.error}>
+                {props.networkError}
+            </div>
+            <div className={s.btn}>
+                <button type="submit">Save data</button>
+            </div>
         </div>
+
 
     </form>
 }
+
+//types
 type ProfileDataFormPropsType = {
     profile: UserProfileType
-    goToEditMode: (editMode: boolean) => void
-    saveProfile: (profile: ProfileType) => void
+    saveProfile: (profile: ProfileType, networkError: string) => void
+    networkError: string
+}
+type FormikErrorType = {
+    aboutMe?: string
+    lookingForAJobDescription?: string
 }
