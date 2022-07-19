@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import s from "./ProfileInfo.module.css"
 import {UserProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
@@ -8,8 +8,6 @@ import {ProfileDataForm} from "./ProfileData/ProfileDataForm";
 import {ProfileType} from "../../../api/api";
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
-    const [editMode, setEditMode] = useState<boolean>(false)
-
     if (!props.profile) {
         return <Preloader/>
     }
@@ -29,16 +27,16 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                     </div>
                 </div>
                 <div>
-                    {editMode
+                    {props.profileEditMode
                         ? <ProfileDataForm profile={props.profile}
                                            saveProfile={props.saveProfile}
                                            networkError={props.networkError}/>
-                        : <ProfileData editMode={editMode}
+                        : <ProfileData editMode={props.profileEditMode}
                                        updateUserStatus={props.updateUserStatus}
                                        status={props.status}
                                        profile={props.profile}
                                        isOwner={props.isOwner}
-                                       goToEditMode={setEditMode}/>}
+                                       goToEditMode={props.changeProfileEditMode}/>}
                 </div>
             </div>
         </div>
@@ -54,4 +52,6 @@ type ProfileInfoPropsType = {
     savePhoto: (file: File) => void
     saveProfile: (profile: ProfileType, networkError: string) => void
     networkError: string
+    changeProfileEditMode: (profileEditMode: boolean) => void
+    profileEditMode: boolean
 }

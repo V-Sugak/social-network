@@ -28,22 +28,9 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
             if (!values.lookingForAJobDescription) {
                 errors.lookingForAJobDescription = 'Required';
             }
-            /*   if (!values.email) {
-                   errors.email = 'Required';
-               } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                   errors.email = 'Invalid email address';
-               }
-               if (!values.password) {
-                   errors.password = 'Required';
-               } else if (values.password.length < 4) {
-                   errors.password = 'Must be 4 characters or more';
-               }*/
             return errors;
         },
-        onSubmit: values => {
-            /*   onSubmit(formik.values.email, formik.values.password, formik.values.rememberMe)
-               formik.resetForm()*/
-            console.log(values)
+        onSubmit: (values) => {
             props.saveProfile({
                 userId: props.profile.userId,
                 fullName: formik.values.fullName,
@@ -61,24 +48,20 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
                     mainLink: formik.values.mainLink,
                 }
             }, props.networkError)
-        },
+        }
     });
 
     return <form onSubmit={formik.handleSubmit} className={s.form}>
         <div className={s.mainBlock}>
-            {/* <span className={s.name}>{props.profile.fullName}</span>*/}
             <div className={s.fullNameData}>
                 <b>Full name: </b>
                 <input
                     {...formik.getFieldProps("fullName")}
                     placeholder={"fullName"}
                 />
-                {/* {formik.touched.email && formik.errors.email && <div className={s.error}>{formik.errors.email}</div>}*/}
             </div>
 
         </div>
-
-
         <div className={s.informationBlock}>
             <div className={s.aboutMe}>
                 <b>About me: </b>

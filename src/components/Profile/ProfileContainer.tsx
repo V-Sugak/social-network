@@ -6,7 +6,7 @@ import {
     getUserProfileTC,
     getUserStatusTC,
     updateUserStatusTC,
-    savePhotoTC, saveProfileTC
+    savePhotoTC, saveProfileTC, changeProfileEditModeAC
 } from "../../redux/profile-reducer";
 import {RootStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
@@ -50,6 +50,8 @@ class ProfileContainer extends React.Component<PropsType> {
                 savePhoto={this.props.savePhoto}
                 saveProfile={this.props.saveProfile}
                 networkError={this.props.networkError}
+                changeProfileEditMode={this.props.changeProfileEditMode}
+                profileEditMode={this.props.profileEditMode}
             />}
         </div>
     }
@@ -58,6 +60,7 @@ class ProfileContainer extends React.Component<PropsType> {
 const mapStateToProps = (state: RootStateType): MapStatePropsType => {
     return {
         profile: state.profilePage.profile,
+        profileEditMode: state.profilePage.profileEditMode,
         isFetching: state.app.isFetching,
         status: state.profilePage.status,
         authorizedUserId: state.auth.id,
@@ -73,6 +76,7 @@ export default compose<ComponentType>(
         updateUserStatus: updateUserStatusTC,
         savePhoto: savePhotoTC,
         saveProfile: saveProfileTC,
+        changeProfileEditMode: changeProfileEditModeAC,
     }),
     withRouter,
 )(ProfileContainer);
@@ -80,6 +84,7 @@ export default compose<ComponentType>(
 //types
 type MapStatePropsType = {
     profile: UserProfileType | null
+    profileEditMode: boolean
     isFetching: boolean
     status: string
     authorizedUserId: number | null
@@ -92,6 +97,7 @@ type MapDispatchProps = {
     updateUserStatus: (status: string) => void
     savePhoto: (file: File) => void
     saveProfile: (profile: ProfileType, networkError: string) => void
+    changeProfileEditMode: (profileEditMode: boolean) => void
 };
 type PathParamsType = {
     userId: string

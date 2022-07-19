@@ -10,6 +10,7 @@ let initialState: StateProfileType = {
     ],
     profile: null,
     status: "",
+    profileEditMode: false,
 }
 
 export const profileReducer = (state: StateProfileType = initialState, action: ProfileActionsType): StateProfileType => {
@@ -46,6 +47,12 @@ export const profileReducer = (state: StateProfileType = initialState, action: P
                 } as UserProfileType
             }
         }
+        case "PROFILE/CHANGE-PROFILE-EDIT-MODE": {
+            return {
+                ...state,
+                profileEditMode: action.profileEditMode
+            }
+        }
         default:
             return state;
     }
@@ -63,6 +70,9 @@ export const setUserStatusAC = (status: string) => {
 }
 export const savePhotoSuccessAC = (photos: PhotosType) => {
     return {type: "PROFILE/SAVE-PHOTO-SUCCESS", photos} as const
+}
+export const changeProfileEditModeAC = (profileEditMode: boolean) => {
+    return {type: "PROFILE/CHANGE-PROFILE-EDIT-MODE", profileEditMode} as const
 }
 
 //thunks
@@ -99,6 +109,7 @@ export const saveProfileTC = (profile: ProfileType, networkError: string): Thunk
                 dispatch(setNetworkErrorAC(""))
             }
             dispatch(getUserProfileTC(profile.userId))
+            dispatch(changeProfileEditModeAC(false))
         } else {
             dispatch(setNetworkErrorAC(response.data.messages[0]))
         }
@@ -134,9 +145,11 @@ export type StateProfileType = {
     posts: Array<PostType>
     profile: UserProfileType | null
     status: string
+    profileEditMode: boolean
 }
 export type ProfileActionsType =
     | ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserProfileAC>
     | ReturnType<typeof setUserStatusAC>
     | ReturnType<typeof savePhotoSuccessAC>
+    | ReturnType<typeof changeProfileEditModeAC>

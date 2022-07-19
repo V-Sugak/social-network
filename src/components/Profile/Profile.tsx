@@ -15,6 +15,8 @@ export const Profile = (props: ProfilePropsType) => {
                 savePhoto={props.savePhoto}
                 saveProfile={props.saveProfile}
                 networkError={props.networkError}
+                changeProfileEditMode={props.changeProfileEditMode}
+                profileEditMode={props.profileEditMode}
             />
             <MyPostsContainer/>
         </div>
@@ -30,4 +32,6 @@ export type ProfilePropsType = {
     saveProfile: (profile: ProfileType, networkError: string) => void
     isOwner: boolean
     networkError: string
+    changeProfileEditMode: (profileEditMode: boolean) => void
+    profileEditMode: boolean
 }
