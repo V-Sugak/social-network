@@ -8,7 +8,7 @@ import {compose} from "redux";
 import {Redirect} from "react-router-dom";
 import {setNetworkErrorAC} from "../../redux/app-reducer";
 
-const Login = ({isAuth, networkError, setNetworkError, login}: LoginPropsType) => {
+const Login = ({isAuth, networkError, setNetworkError, login, captchaURL}: LoginPropsType) => {
     if (isAuth) {
         if (networkError) {
             setNetworkError('')
@@ -17,7 +17,7 @@ const Login = ({isAuth, networkError, setNetworkError, login}: LoginPropsType) =
     }
     return <div className={s.loginContainer}>
         <h1 className={s.loginHeader}>Login</h1>
-        <LoginForm onSubmit={login} networkError={networkError}/>
+        <LoginForm onSubmit={login} networkError={networkError} captchaURL={captchaURL}/>
     </div>
 }
 
@@ -25,6 +25,7 @@ const mapStateToProps = (state: RootStateType): mapStateToPropsType => {
     return {
         isAuth: state.auth.isAuth,
         networkError: state.app.networkError,
+        captchaURL: state.auth.captchaURL,
     }
 }
 export default compose<ComponentType>(connect(mapStateToProps, {
@@ -36,6 +37,7 @@ export default compose<ComponentType>(connect(mapStateToProps, {
 type mapStateToPropsType = {
     isAuth: boolean
     networkError: string
+    captchaURL: string | null
 }
 type mapDispatchToPropsType = {
     login: (email: string, password: string, rememberMe: boolean) => ThunkType

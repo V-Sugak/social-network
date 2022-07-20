@@ -56,6 +56,11 @@ export const authURL = {
         return instance.delete<ResponseType>("auth/login")
     },
 }
+export const securityURL = {
+    getCaptchaURL() {
+        return instance.get<getCaptchaURLResponseType>("security/get-captcha-url")
+    }
+}
 
 //types
 export type UsersSetResponseType = {
@@ -79,3 +84,6 @@ type LoginRequestType = {
     rememberMe: boolean
 }
 export type ProfileType = Omit<UserProfileType, "photos">
+type getCaptchaURLResponseType = {
+    url: string
+}

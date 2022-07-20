@@ -1,9 +1,10 @@
 import {useFormik} from "formik";
 import s from "./Login.module.css";
+import style from "./LoginForm.module.css";
 import React from "react";
 import {ThunkType} from "../../redux/redux-store";
 
-export const LoginForm = ({onSubmit, networkError}: LoginFormPropsType) => {
+export const LoginForm = ({onSubmit, networkError, captchaURL}: LoginFormPropsType) => {
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -57,9 +58,12 @@ export const LoginForm = ({onSubmit, networkError}: LoginFormPropsType) => {
                 <label>Remember me</label>
             </div>
             <div>
-                {networkError}
+                {captchaURL && <img src={captchaURL} className={style.captchaImage}/>}
             </div>
             <button type="submit" className={s.loginButton}>Login</button>
+            <div className={s.error}>
+                {networkError}
+            </div>
         </form>
     )
 }
@@ -72,4 +76,5 @@ type FormikErrorType = {
 type LoginFormPropsType = {
     onSubmit: (email: string, password: string, rememberMe: boolean) => ThunkType
     networkError: string
+    captchaURL: string | null
 }

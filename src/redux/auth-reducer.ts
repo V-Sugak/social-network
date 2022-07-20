@@ -1,5 +1,5 @@
 import {ThunkType} from "./redux-store";
-import {authURL} from "../api/api";
+import {authURL, securityURL} from "../api/api";
 import {setNetworkErrorAC} from "./app-reducer";
 
 const initialState: AuthStateType = {
@@ -7,6 +7,7 @@ const initialState: AuthStateType = {
     login: "",
     email: "",
     isAuth: false,
+    captchaURL: null,  // if null, then captcha is not required
 };
 
 export const authReducer = (state: AuthStateType = initialState, action: AuthActionsType): AuthStateType => {
@@ -16,6 +17,9 @@ export const authReducer = (state: AuthStateType = initialState, action: AuthAct
                 ...state,
                 ...action.payload
             }
+        }
+        case "APP/SET-CAPTCHA-URL": {
+            return {...state, captchaURL: action.captchaURL}
         }
         default:
             return state;
@@ -28,7 +32,10 @@ export const setAuthUserDataAC = (id: number | null, login: string, email: strin
         type: "AUTH/SET-USER-DATA",
         payload: {id, login, email, isAuth}
     } as const
-};
+}
+export const setCaptchaURLAC = (captchaURL: string) => {
+    return {type: "APP/SET-CAPTCHA-URL", captchaURL} as const
+}
 
 //thunks
 export const setAuthUserDataTC = (): ThunkType => async (dispatch) => {
@@ -43,6 +50,9 @@ export const loginTC = (email: string, password: string, rememberMe: boolean): T
     if (response.data.resultCode === 0) {
         dispatch(setAuthUserDataTC())
     } else {
+        if (response.data.resultCode === 10) {
+            dispatch(getCaptchaURLTC())
+        }
         if (response.data.messages.length) {
             dispatch(setNetworkErrorAC(response.data.messages[0]))
         } else {
@@ -56,6 +66,11 @@ export const logoutTC = (): ThunkType => async (dispatch) => {
         dispatch(setAuthUserDataAC(null, '', '', false))
     }
 }
+export const getCaptchaURLTC = (): ThunkType => (dispatch) => {
+    securityURL.getCaptchaURL().then(response => {
+        dispatch(setCaptchaURLAC(response.data.url))
+    })
+}
 
 //types
 export  type AuthStateType = {
@@ -63,6 +78,9 @@ export  type AuthStateType = {
     login: string
     email: string
     isAuth: boolean
+    captchaURL: string | null
 };
-export type setAuthUserDataACType = ReturnType<typeof setAuthUserDataAC>
+export type setAuthUserDataACType =
+    | ReturnType<typeof setAuthUserDataAC>
+    | ReturnType<typeof setCaptchaURLAC>
 export type AuthActionsType = setAuthUserDataACType
