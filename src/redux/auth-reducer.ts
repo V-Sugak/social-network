@@ -7,7 +7,7 @@ const initialState: AuthStateType = {
     login: "",
     email: "",
     isAuth: false,
-    captchaURL: null,  // if null, then captcha is not required
+    captchaURL: "",  // if null, then captcha is not required
 };
 
 export const authReducer = (state: AuthStateType = initialState, action: AuthActionsType): AuthStateType => {
@@ -27,10 +27,10 @@ export const authReducer = (state: AuthStateType = initialState, action: AuthAct
 };
 
 //actions
-export const setAuthUserDataAC = (id: number | null, login: string, email: string, isAuth: boolean) => {
+export const setAuthUserDataAC = (id: number | null, login: string, email: string, isAuth: boolean, captchaURL: string) => {
     return {
         type: "AUTH/SET-USER-DATA",
-        payload: {id, login, email, isAuth}
+        payload: {id, login, email, isAuth, captchaURL}
     } as const
 }
 export const setCaptchaURLAC = (captchaURL: string) => {
@@ -42,11 +42,12 @@ export const setAuthUserDataTC = (): ThunkType => async (dispatch) => {
     const response = await authURL.me()
     if (response.data.resultCode === 0) {
         let {id, login, email} = response.data.data;
-        dispatch(setAuthUserDataAC(id, login, email, true))
+        dispatch(setAuthUserDataAC(id, login, email, true, ""))
+
     }
 }
-export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => async (dispatch) => {
-    const response = await authURL.login({email, password, rememberMe})
+export const loginTC = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkType => async (dispatch) => {
+    const response = await authURL.login({email, password, rememberMe, captcha})
     if (response.data.resultCode === 0) {
         dispatch(setAuthUserDataTC())
     } else {
@@ -63,7 +64,7 @@ export const loginTC = (email: string, password: string, rememberMe: boolean): T
 export const logoutTC = (): ThunkType => async (dispatch) => {
     const response = await authURL.logout()
     if (response.data.resultCode === 0) {
-        dispatch(setAuthUserDataAC(null, '', '', false))
+        dispatch(setAuthUserDataAC(null, '', '', false, ""))
     }
 }
 export const getCaptchaURLTC = (): ThunkType => (dispatch) => {
@@ -78,7 +79,7 @@ export  type AuthStateType = {
     login: string
     email: string
     isAuth: boolean
-    captchaURL: string | null
+    captchaURL: string
 };
 export type setAuthUserDataACType =
     | ReturnType<typeof setAuthUserDataAC>

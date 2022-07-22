@@ -43,6 +43,7 @@ class ProfileContainer extends React.Component<PropsType> {
     render() {
         return <div>
             {this.props.isFetching ? <Preloader/> : <Profile
+                isAuth={this.props.isAuth}
                 status={this.props.status}
                 profile={this.props.profile}
                 updateUserStatus={this.props.updateUserStatus}

@@ -3,8 +3,12 @@ import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {UserProfileType} from "../../redux/profile-reducer";
 import {ProfileType} from "../../api/api";
+import {Redirect} from "react-router-dom";
 
 export const Profile = (props: ProfilePropsType) => {
+    if (!props.isAuth) {
+        return <Redirect to={"/login"}/>
+    }
     return (
         <div>
             <ProfileInfo
@@ -34,4 +38,5 @@ export type ProfilePropsType = {
     networkError: string
     changeProfileEditMode: (profileEditMode: boolean) => void
     profileEditMode: boolean
+    isAuth: boolean
 }

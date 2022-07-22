@@ -2,14 +2,14 @@ import {useFormik} from "formik";
 import s from "./Login.module.css";
 import style from "./LoginForm.module.css";
 import React from "react";
-import {ThunkType} from "../../redux/redux-store";
 
-export const LoginForm = ({onSubmit, networkError, captchaURL}: LoginFormPropsType) => {
+export const LoginForm = ({onSubmit, networkError, captchaURL, isAuth}: LoginFormPropsType) => {
     const formik = useFormik({
         initialValues: {
             email: "",
             password: "",
             rememberMe: false,
+            captcha: captchaURL,
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
@@ -26,8 +26,10 @@ export const LoginForm = ({onSubmit, networkError, captchaURL}: LoginFormPropsTy
             return errors;
         },
         onSubmit: values => {
-            onSubmit(formik.values.email, formik.values.password, formik.values.rememberMe)
-            formik.resetForm()
+            onSubmit(formik.values.email, formik.values.password, formik.values.rememberMe, formik.values.captcha)
+            if (isAuth) {
+                formik.resetForm()
+            }
         },
     });
 
@@ -57,9 +59,17 @@ export const LoginForm = ({onSubmit, networkError, captchaURL}: LoginFormPropsTy
                 />
                 <label>Remember me</label>
             </div>
+
+            {captchaURL &&
             <div>
-                {captchaURL && <img src={captchaURL} className={style.captchaImage}/>}
-            </div>
+                <div>
+                    <img src={captchaURL} className={style.captchaImage}/>
+                </div>
+                <div>
+                    <input {...formik.getFieldProps("captcha")} placeholder={"Enter symbols from image"}/>
+                </div>
+            </div>}
+
             <button type="submit" className={s.loginButton}>Login</button>
             <div className={s.error}>
                 {networkError}
@@ -74,7 +84,8 @@ type FormikErrorType = {
     password?: string
 }
 type LoginFormPropsType = {
-    onSubmit: (email: string, password: string, rememberMe: boolean) => ThunkType
+    onSubmit: (email: string, password: string, rememberMe: boolean, captcha: string | null) => void
     networkError: string
-    captchaURL: string | null
+    captchaURL: string
+    isAuth: boolean
 }
