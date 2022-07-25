@@ -3,11 +3,17 @@ import s from "./MyPosts.module.css";
 import {Post} from "./Post/Post";
 import {MyPostsPropsType} from "./MyPostsContainer";
 import {PostForm} from "../../common/Forms/PostForm";
+import userPhoto from "../../../assets/images/user.png";
 
 
 export const MyPosts = React.memo((props: MyPostsPropsType) => {
-    console.log('MyPosts')
-    let postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likeCount={p.likesCount}/>)
+    let smallPhoto = "";
+    if (props.profile) {
+        smallPhoto = props.profile.photos.small !== null ? props.profile.photos.small : userPhoto
+    }
+
+    let postsElements = props.posts.map(p => <Post key={p.id} smallPhoto={smallPhoto} message={p.message}
+                                                   likeCount={p.likesCount}/>)
 
     return (
         <div className={s.postsBlock}>

@@ -92,6 +92,8 @@ export const updateUserStatusTC = (status: string): ThunkType => async (dispatch
     const response = await profileURL.updateStatus(status)
     if (response.data.resultCode === 0) {
         dispatch(setUserStatusAC(status))
+    } else{
+        alert(response.data.messages[0])
     }
 }
 export const savePhotoTC = (file: File): ThunkType => async (dispatch) => {
